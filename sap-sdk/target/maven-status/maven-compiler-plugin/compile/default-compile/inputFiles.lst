@@ -14,6 +14,9 @@
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/account/OutputChannel.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/account/request/CreateAccountRequest.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/account/request/UpdateAccountRequest.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/delivery/DeliveryCost.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/employee/Employee.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/employee/EmployeeCollection.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/order/rental/RentalOrder.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/order/rental/RentalOrderProduct.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/order/rental/RentalPriceCheck.java
