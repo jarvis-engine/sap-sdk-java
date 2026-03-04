@@ -1,1 +1,1 @@
-# SAP SDK autoconfiguration entry point (to be populated in Task 2)
+com.vengine.kk.sap.autoconfigure.SapAutoConfiguration
