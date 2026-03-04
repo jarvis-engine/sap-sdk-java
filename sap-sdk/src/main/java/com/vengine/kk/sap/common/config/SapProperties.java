@@ -14,8 +14,13 @@ public class SapProperties {
     private Credentials credentials = new Credentials();
     private Features features = new Features();
 
+    public enum AuthType {
+        BASIC, OAUTH2
+    }
+
     @Data
     public static class Credentials {
+        private AuthType authType = AuthType.BASIC;
         private String oauthClientId;
         private String oauthClientSecret;
         private String oauthTokenUrl;

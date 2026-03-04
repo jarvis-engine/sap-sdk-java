@@ -16,6 +16,7 @@ com/vengine/kk/sap/client/account/OutputChannel.class
 com/vengine/kk/sap/common/config/SapProperties$Credentials.class
 com/vengine/kk/sap/common/config/SapRoutes.class
 com/vengine/kk/sap/client/account/Discount.class
+com/vengine/kk/sap/common/auth/SapAuthenticatedClientFactory$1.class
 com/vengine/kk/sap/client/product/rental/SerializedItem$SerializedItemBuilder.class
 com/vengine/kk/sap/client/order/sales/OrderParty$OrderPartyBuilder.class
 com/vengine/kk/sap/client/account/BusinessDocument$BusinessDocumentBuilder.class
@@ -33,6 +34,7 @@ com/vengine/kk/sap/common/config/SapProperties.class
 com/vengine/kk/sap/client/order/sales/OrderContact.class
 com/vengine/kk/sap/client/product/catalog/ProductPrice.class
 com/vengine/kk/sap/client/product/catalog/ProductAttribute$AttributeTranslation$AttributeTranslationBuilder.class
+com/vengine/kk/sap/common/auth/OAuth2BearerTokenInterceptor.class
 com/vengine/kk/sap/client/order/rental/RentalPriceCheck$RentalPriceCheckBuilder.class
 com/vengine/kk/sap/client/product/catalog/StockAvailability.class
 com/vengine/kk/sap/client/account/request/UpdateAccountRequest.class
@@ -42,6 +44,7 @@ com/vengine/kk/sap/client/account/request/CreateAccountRequest$CreateAccountRequ
 com/vengine/kk/sap/client/order/rental/RentalPriceCheckProduct$RentalPriceCheckProductBuilder.class
 com/vengine/kk/sap/client/order/sales/SalesOrder.class
 com/vengine/kk/sap/common/model/PageMetadata.class
+com/vengine/kk/sap/common/auth/SapAuthenticatedClientFactory.class
 com/vengine/kk/sap/client/product/catalog/ProductDetails.class
 com/vengine/kk/sap/client/product/catalog/PriceList.class
 com/vengine/kk/sap/client/product/catalog/ProductDetails$ProductDetailsBuilder.class
@@ -83,10 +86,12 @@ com/vengine/kk/sap/client/account/AddressBook.class
 com/vengine/kk/sap/client/product/catalog/ProductPrice$ProductPriceBuilder.class
 com/vengine/kk/sap/client/account/Contact.class
 com/vengine/kk/sap/client/order/rental/RentalOrderProduct$RentalOrderProductBuilder.class
+com/vengine/kk/sap/common/config/SapProperties$AuthType.class
 com/vengine/kk/sap/client/account/Address$AddressBuilder.class
 com/vengine/kk/sap/common/model/SapResponse$SapResponseBuilder.class
 com/vengine/kk/sap/client/account/AssignedEmployee$AssignedEmployeeBuilder.class
 com/vengine/kk/sap/common/model/SapQuery.class
+com/vengine/kk/sap/common/auth/OAuth2BearerTokenInterceptor$TokenResponse.class
 com/vengine/kk/sap/client/order/sales/OrderTax$OrderTaxBuilder.class
 com/vengine/kk/sap/client/order/rental/RentalRateCheck$RentalRateCheckBuilder.class
 com/vengine/kk/sap/client/account/request/CreateAccountRequest.class
