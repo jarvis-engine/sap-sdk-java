@@ -51,14 +51,19 @@ public class SapRoutes {
     // Sales-order routes
     // -------------------------------------------------------------------------
     private static final String ORDER_V1_POST                = "/v1/sales-order/post";
+    private static final String ORDER_V1_GET                 = "/v1/sales-order/get";
+    private static final String ORDER_V1_CANCEL              = "/v1/sales-order/cancel";
     private static final String ORDER_V1_SHIPPING_CONDITIONS = "/v1/sales-orders-shipping-conditions/get";
 
-    private static final String ORDER_V2_POST   = "/v2/sales-order/post";
+    private static final String ORDER_V2_POST      = "/v2/sales-order/post";
     private static final String ORDER_V2_GET_BY_ID = "/v2/sales-order/get";
 
     private static final String ORDER_V3_POST = "/v3/sales-order/post";
+    private static final String ORDER_V3_GET  = "/v3/sales-order/get";
     private static final String ORDER_V4_POST = "/v4/sales-order/post";
+    private static final String ORDER_V4_GET  = "/v4/sales-order/get";
     private static final String ORDER_V5_POST = "/v5/sales-order/post";
+    private static final String ORDER_V5_GET  = "/v5/sales-order/get";
 
     // -------------------------------------------------------------------------
     // Rental-order routes
@@ -227,8 +232,26 @@ public class SapRoutes {
         return getOrderCreateRoute();
     }
 
+    public String getOrderFetchRoute() {
+        String path = ORDER_V1_GET;
+        if (properties.getFeatures().isSalesOrderV3EndpointEnabled()) {
+            path = ORDER_V3_GET;
+        }
+        if (properties.getFeatures().isSalesOrderV4EndpointEnabled()) {
+            path = ORDER_V4_GET;
+        }
+        if (properties.getFeatures().isSalesOrderV5EndpointEnabled()) {
+            path = ORDER_V5_GET;
+        }
+        return route(path);
+    }
+
     public String getOrderByIdRoute() {
         return route(ORDER_V2_GET_BY_ID);
+    }
+
+    public String getOrderCancelRoute() {
+        return route(ORDER_V1_CANCEL);
     }
 
     public String getOrdersShippingConditions() {
