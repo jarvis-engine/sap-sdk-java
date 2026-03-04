@@ -17,8 +17,10 @@ com/vengine/kk/sap/common/config/SapProperties$Credentials.class
 com/vengine/kk/sap/common/config/SapRoutes.class
 com/vengine/kk/sap/client/account/Discount.class
 com/vengine/kk/sap/common/auth/SapAuthenticatedClientFactory$1.class
+com/vengine/kk/sap/common/client/BaseSapClient.class
 com/vengine/kk/sap/client/product/rental/SerializedItem$SerializedItemBuilder.class
 com/vengine/kk/sap/client/order/sales/OrderParty$OrderPartyBuilder.class
+com/vengine/kk/sap/common/response/SapResponseDecoder.class
 com/vengine/kk/sap/client/account/BusinessDocument$BusinessDocumentBuilder.class
 com/vengine/kk/sap/client/account/DiscountCollection$DiscountCollectionBuilder.class
 com/vengine/kk/sap/autoconfigure/SapAutoConfiguration.class
@@ -40,6 +42,7 @@ com/vengine/kk/sap/client/product/catalog/StockAvailability.class
 com/vengine/kk/sap/client/account/request/UpdateAccountRequest.class
 com/vengine/kk/sap/client/product/catalog/StockAvailability$SupplyPlanningArea.class
 com/vengine/kk/sap/client/account/Account.class
+com/vengine/kk/sap/common/error/SapExceptionHandler.class
 com/vengine/kk/sap/client/account/request/CreateAccountRequest$CreateAccountRequestBuilder.class
 com/vengine/kk/sap/client/order/rental/RentalPriceCheckProduct$RentalPriceCheckProductBuilder.class
 com/vengine/kk/sap/client/order/sales/SalesOrder.class

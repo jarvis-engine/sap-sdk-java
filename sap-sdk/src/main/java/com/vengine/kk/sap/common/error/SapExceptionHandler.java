@@ -60,8 +60,7 @@ public class SapExceptionHandler {
 
             throw new SapClientException(message);
         } catch (SapClientException e) {
-            throw e;
-        } catch (AccountOrderBlockException e) {
+            // covers AccountOrderBlockException (subclass)
             throw e;
         } catch (Exception e) {
             throw new SapClientException("SAP error (HTTP " + httpStatus + ")");
