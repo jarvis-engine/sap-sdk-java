@@ -10,7 +10,11 @@ import org.springframework.http.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * Abstract base class for SAP ByDesign API clients.
@@ -96,6 +100,51 @@ public abstract class BaseSapClient {
         }
     }
 
+    /**
+     * Performs a POST request with a JSON body and decodes a list of entities from the SAP envelope.
+     */
+    protected <T> List<T> postList(String route, Object body, Class<T> itemType) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP POST (list) {}", url);
+            String responseBody = doPost(url, body);
+            return decoder.decodeList(responseBody, itemType);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    /**
+     * Performs a POST request with a JSON body, ignoring the response body.
+     */
+    protected void postVoid(String route, Object body) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP POST (void) {}", url);
+            doPost(url, body);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    /**
+     * Performs a DELETE request, ignoring the response body.
+     */
+    protected void delete(String route) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP DELETE {}", url);
+            restTemplate.delete(url);
+        } catch (HttpStatusCodeException e) {
+            exceptionHandler.handle(e.getResponseBodyAsString(), e.getStatusCode().value());
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
     private String doGet(String url) {
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
@@ -104,6 +153,22 @@ public abstract class BaseSapClient {
             exceptionHandler.handle(e.getResponseBodyAsString(), e.getStatusCode().value());
             return null; // unreachable — handle() always throws
         }
+    }
+
+    /**
+     * Appends query parameters to a route string.
+     * Skips null/empty values. URL-encodes all values.
+     */
+    protected String appendQueryParams(String route, Map<String, ?> params) {
+        if (params == null || params.isEmpty()) return route;
+        StringJoiner joiner = new StringJoiner("&");
+        params.forEach((k, v) -> {
+            if (v != null && !v.toString().isEmpty()) {
+                joiner.add(k + "=" + URLEncoder.encode(v.toString(), StandardCharsets.UTF_8));
+            }
+        });
+        String query = joiner.toString();
+        return query.isEmpty() ? route : route + "?" + query;
     }
 
     private String doPost(String url, Object body) {
@@ -120,3 +185,4 @@ public abstract class BaseSapClient {
         }
     }
 }
+

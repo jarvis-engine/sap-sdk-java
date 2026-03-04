@@ -20,6 +20,9 @@ public class SapRoutes {
     private static final String CUSTOMER_V1_CREDIT_LIMIT          = "/v1/customer/credit-limit-custom/get";
     private static final String CUSTOMER_V1_CREDIT_LIMIT_STANDARD = "/v1/customer/credit-limit/get";
     private static final String CUSTOMER_V1_DELETE_CONTACT         = "/v1/customer/relationship/delete";
+    private static final String CUSTOMER_V1_DELETE_ADDRESS         = "/v1/customer/address/delete";
+    private static final String CUSTOMER_V1_CREATE_ADDRESS         = "/v1/customer/address/post";
+    private static final String CUSTOMER_V1_CREATE_CONTACT         = "/v1/customer/relationship/post";
 
     private static final String CUSTOMER_V2_POST = "/v2/customer/post";
     private static final String CUSTOMER_V2_GET  = "/v2/customer/get";
@@ -36,6 +39,7 @@ public class SapRoutes {
     private static final String PRODUCT_V1_GET              = "/v1/product/get";
     private static final String PRODUCT_V1_DETAILS          = "/v1/product/details/get";
     private static final String PRODUCT_V1_GET_ONE          = "/v1/product/get-one";
+    private static final String PRODUCT_V1_CATEGORIES       = "/v1/product/category/get";
     private static final String PRODUCT_V1_ATTRIBUTE        = "/product-material-attribute/1.0.0/get";
     private static final String PRODUCT_V1_ONE_ATTRIBUTE    = "/material-attribute/get";
     private static final String PRODUCT_V1_AVAILABILITY     = "/v1/product/availability/get";
@@ -146,6 +150,18 @@ public class SapRoutes {
         return route(CUSTOMER_V1_DISCOUNTS);
     }
 
+    public String getAddressDeleteRoute() {
+        return route(CUSTOMER_V1_DELETE_ADDRESS);
+    }
+
+    public String getAddressCreateRoute() {
+        return route(CUSTOMER_V1_CREATE_ADDRESS);
+    }
+
+    public String getContactCreateRoute() {
+        return route(CUSTOMER_V1_CREATE_CONTACT);
+    }
+
     // -------------------------------------------------------------------------
     // Employee
     // -------------------------------------------------------------------------
@@ -164,6 +180,10 @@ public class SapRoutes {
 
     public String getOneProductFetchRoute() {
         return route(PRODUCT_V1_GET_ONE);
+    }
+
+    public String getProductCategoriesFetchRoute() {
+        return route(PRODUCT_V1_CATEGORIES);
     }
 
     public String getProductAttributesFetchRoute() {
