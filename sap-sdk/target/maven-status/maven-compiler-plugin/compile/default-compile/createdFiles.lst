@@ -1,5 +1,10 @@
 com/vengine/kk/sap/common/config/SapProperties.class
+com/vengine/kk/sap/common/model/PageMetadata$PageMetadataBuilder.class
 com/vengine/kk/sap/common/config/SapProperties$Features.class
+com/vengine/kk/sap/common/model/SapResponse.class
+com/vengine/kk/sap/common/model/SapResponse$SapResponseBuilder.class
+com/vengine/kk/sap/common/model/PageMetadata.class
+com/vengine/kk/sap/common/model/SapQuery.class
 com/vengine/kk/sap/autoconfigure/SapAutoConfiguration.class
 com/vengine/kk/sap/common/config/SapProperties$Credentials.class
 com/vengine/kk/sap/common/config/SapRoutes.class
