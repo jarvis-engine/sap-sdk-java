@@ -43,8 +43,12 @@
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/product/catalog/ProductPrice.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/product/catalog/StockAvailability.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/client/product/rental/SerializedItem.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/auth/BasicAuthInterceptor.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/config/SapProperties.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/config/SapRoutes.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/error/SapResponseErrorHandler.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/exception/AccountOrderBlockException.java
+/home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/exception/SapClientException.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/model/PageMetadata.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/model/SapQuery.java
 /home/jarvis/.openclaw/workspace/sap-sdk-java/sap-sdk/src/main/java/com/vengine/kk/sap/common/model/SapResponse.java

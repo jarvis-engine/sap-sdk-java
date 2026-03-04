@@ -22,6 +22,7 @@ com/vengine/kk/sap/client/account/BusinessDocument$BusinessDocumentBuilder.class
 com/vengine/kk/sap/client/account/DiscountCollection$DiscountCollectionBuilder.class
 com/vengine/kk/sap/autoconfigure/SapAutoConfiguration.class
 com/vengine/kk/sap/client/account/DuplicationResult.class
+com/vengine/kk/sap/common/error/SapResponseErrorHandler.class
 com/vengine/kk/sap/client/employee/Employee$EmployeeBuilder.class
 com/vengine/kk/sap/client/order/sales/ShippingCondition$ShippingConditionBuilder.class
 com/vengine/kk/sap/client/order/sales/OrderProduct$OrderProductBuilder.class
@@ -44,6 +45,7 @@ com/vengine/kk/sap/common/model/PageMetadata.class
 com/vengine/kk/sap/client/product/catalog/ProductDetails.class
 com/vengine/kk/sap/client/product/catalog/PriceList.class
 com/vengine/kk/sap/client/product/catalog/ProductDetails$ProductDetailsBuilder.class
+com/vengine/kk/sap/common/exception/SapClientException.class
 com/vengine/kk/sap/client/order/sales/OrderPayment$OrderPaymentBuilder.class
 com/vengine/kk/sap/client/employee/EmployeeCollection$EmployeeCollectionBuilder.class
 com/vengine/kk/sap/client/order/rental/RentalPriceCheck.class
@@ -90,11 +92,13 @@ com/vengine/kk/sap/client/order/rental/RentalRateCheck$RentalRateCheckBuilder.cl
 com/vengine/kk/sap/client/account/request/CreateAccountRequest.class
 com/vengine/kk/sap/client/account/OutputChannel$OutputChannelBuilder.class
 com/vengine/kk/sap/client/account/AddressBook$AddressBookBuilder.class
+com/vengine/kk/sap/common/exception/AccountOrderBlockException.class
 com/vengine/kk/sap/common/model/SapResponse.class
 com/vengine/kk/sap/client/order/sales/PostalAddress$PostalAddressBuilder.class
 com/vengine/kk/sap/client/account/CreditLimit.class
 com/vengine/kk/sap/client/product/rental/SerializedItem.class
 com/vengine/kk/sap/client/order/rental/RentalOrderProduct.class
+com/vengine/kk/sap/common/auth/BasicAuthInterceptor.class
 com/vengine/kk/sap/client/account/DiscountCollection.class
 com/vengine/kk/sap/client/account/Account$AccountBuilder.class
 com/vengine/kk/sap/client/account/Discount$DiscountBuilder.class
