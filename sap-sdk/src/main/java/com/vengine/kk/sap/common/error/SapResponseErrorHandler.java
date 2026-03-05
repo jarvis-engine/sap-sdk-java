@@ -30,24 +30,30 @@ public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
         String body = new String(bodyBytes, StandardCharsets.UTF_8);
         int status = response.getStatusCode().value();
 
-        log.error("SAP API error — HTTP {}: {}", status, body);
-
         try {
             JsonNode root = objectMapper.readTree(body);
 
-            // 1. Try OData error format: {"error": {"code": "...", "message": {"value": "..."}}}
+            // 1. OData error format: {"error": {"code": "...", "message": {"value": "..."}}}
             JsonNode errorNode = root.get("error");
             if (errorNode != null && !errorNode.isNull()) {
                 String code    = errorNode.path("code").asText("");
                 String message = errorNode.path("message").path("value").asText("");
                 if (!message.isBlank() || !code.isBlank()) {
-                    if (code.startsWith("AP")) throw new AccountOrderBlockException(message);
-                    if (code.startsWith("SY")) throw new SapClientException("SAP system error");
-                    throw new SapClientException(message.isBlank() ? "SAP error (HTTP " + status + ")" : message);
+                    if (code.startsWith("AP")) {
+                        log.warn("SAP account order block — code: {}, message: {}", code, message);
+                        throw new AccountOrderBlockException(message);
+                    }
+                    if (code.startsWith("SY")) {
+                        log.error("SAP system error — code: {}, HTTP {}", code, status);
+                        throw new SapClientException("SAP system error");
+                    }
+                    String msg = message.isBlank() ? "SAP error (HTTP " + status + ")" : message;
+                    log.warn("SAP business error — code: {}, message: {}", code, msg);
+                    throw new SapClientException(msg);
                 }
             }
 
-            // 2. Try Log.Item format: {"Log": {"Item": [...]}} or {"Log": {"Item": {...}}}
+            // 2. Log.Item format: {"Log": {"Item": [...]}} or {"Log": {"Item": {...}}}
             JsonNode logNode = root.path("Log").path("Item");
             if (!logNode.isMissingNode() && !logNode.isNull()) {
                 if (logNode.isArray()) {
@@ -58,12 +64,13 @@ public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
             }
 
         } catch (SapClientException e) {
-            throw e;  // covers AccountOrderBlockException (subclass)
+            throw e;
         } catch (Exception ignored) {
             // body not parseable JSON — fall through to generic
         }
 
-        // Generic fallback
+        // Generic fallback — truly unexpected
+        log.error("SAP HTTP error {} — unparseable response: {}", status, body);
         throw new SapClientException("SAP HTTP error " + status);
     }
 
@@ -73,12 +80,13 @@ public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
             log.warn("SAP Log.Item warning: {}", item);
         }
         if (severityCode == SEVERITY_ERROR) {
-            log.error("SAP Log.Item error: {}", item);
             String typeId = item.path("TypeID").asText("");
             String note   = item.path("Note").asText("");
             if (ORDER_BLOCK_TYPE_ID.equals(typeId)) {
+                log.warn("SAP account order block — typeId: {}, note: {}", typeId, note);
                 throw new AccountOrderBlockException("Account has order block");
             }
+            log.warn("SAP Log.Item error — typeId: {}, note: {}", typeId, note);
             throw new SapClientException("Unknown SAP error code: " + typeId + ", note: " + note);
         }
     }

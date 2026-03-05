@@ -1,27 +1,50 @@
 # SAP ByDesign Java SDK
 
-Spring Boot library for SAP ByDesign OData APIs. Replaces the legacy [PHP sap-sdk](https://github.com/jarvis-engine/sap-sdk) with a type-safe, auto-configured Java client.
+A Spring Boot library for SAP ByDesign OData APIs — type-safe, auto-configured, production-ready.
 
-**Modules:**
+Replaces the legacy [PHP sap-sdk](https://github.com/venginetech/sap-sdk) with a proper Java client
+suitable for integration into any Spring Boot application.
 
-- `sap-sdk` — the library (Spring Boot starter with auto-configuration)
-- `sap-sdk-demo` — demo Spring Boot app exercising all SDK clients
+**Version:** 0.1.3
+**Java:** 21 | **Spring Boot:** 3.5 | **Maven**
+
+---
+
+## Modules
+
+| Module | Description |
+|--------|-------------|
+| `sap-sdk` | The library — Spring Boot auto-configuration + all 7 SAP clients |
+| `sap-sdk-demo` | Demo Spring Boot app — exercises all clients against a WireMock SAP mock |
+
+---
 
 ## Quick Start
 
-### 1. Add Maven dependency
+### 1. Add dependency
 
-The SDK is published to GitHub Packages:
+Published to GitHub Packages (`jarvis-engine/sap-sdk-java`):
 
 ```xml
 <dependency>
     <groupId>com.vengine.kk</groupId>
     <artifactId>sap-sdk</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.3</version>
 </dependency>
 ```
 
-Configure GitHub Packages authentication in your `~/.m2/settings.xml`:
+Add the repository to `pom.xml`:
+
+```xml
+<repositories>
+  <repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/jarvis-engine/sap-sdk-java</url>
+  </repository>
+</repositories>
+```
+
+And credentials in `~/.m2/settings.xml`:
 
 ```xml
 <servers>
@@ -33,104 +56,97 @@ Configure GitHub Packages authentication in your `~/.m2/settings.xml`:
 </servers>
 ```
 
-And add the repository to your `pom.xml`:
-
-```xml
-<repositories>
-  <repository>
-    <id>github</id>
-    <url>https://maven.pkg.github.com/jarvis-engine/sap-sdk-java</url>
-  </repository>
-</repositories>
-```
-
-### 2. Configure `application.yml`
+### 2. Configure
 
 ```yaml
 sap:
-  base-url: https://your-sap-instance.sapbydesign.com
+  base-url: https://my-sap-instance.example.com
   env: production
+  origin-project: ep           # plain string — "ep" or "eshop" (optional)
   credentials:
     auth-type: BASIC
-    username: your-user
-    password: your-password
-  features:
-    customer-v2-endpoint-enabled: false
-    sales-order-v3-endpoint-enabled: false
+    username: sap-api-user
+    password: sap-api-password
 ```
 
-### 3. Inject and use clients
+### 3. Use
+
+All 7 clients are registered as Spring beans automatically. Inject directly:
 
 ```java
 @RestController
-public class MyController {
+public class AccountController {
 
     private final AccountClient accountClient;
 
-    public MyController(AccountClient accountClient) {
+    public AccountController(AccountClient accountClient) {
         this.accountClient = accountClient;
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAccounts() {
-        SapQuery query = new SapQuery();
-        query.setLimit("10");
-        return accountClient.fetch(query);
+    public List<Account> list() {
+        return accountClient.fetch(new SapQuery().withLimit(20));
     }
 }
 ```
 
-All clients are auto-configured as Spring beans — just inject them.
+---
 
 ## Configuration Reference
 
-All properties are under the `sap` prefix:
+| Property | Description | Required |
+|----------|-------------|----------|
+| `sap.base-url` | SAP ByDesign base URL | ✅ |
+| `sap.env` | Environment path segment (e.g. `test`, `production`) | ✅ |
+| `sap.origin-project` | Origin project identifier sent as `Origin-Project` header. Values: `ep`, `eshop` | — |
+| `sap.credentials.auth-type` | `BASIC` or `OAUTH2` | — (default: `BASIC`) |
+| `sap.credentials.username` | Basic auth username | BASIC only |
+| `sap.credentials.password` | Basic auth password | BASIC only |
+| `sap.credentials.oauth-client-id` | OAuth2 client ID | OAUTH2 only |
+| `sap.credentials.oauth-client-secret` | OAuth2 client secret | OAUTH2 only |
+| `sap.credentials.oauth-token-url` | OAuth2 token endpoint URL | OAUTH2 only |
+| `sap.features.customer-v2-endpoint-enabled` | Use V2 customer endpoints | — (default: false) |
+| `sap.features.sales-order-v3-endpoint-enabled` | Use V3 sales order endpoints | — (default: false) |
+| `sap.features.sales-order-v4-endpoint-enabled` | Use V4 sales order endpoints | — (default: false) |
+| `sap.features.sales-order-v5-endpoint-enabled` | Use V5 (highest priority) | — (default: false) |
+| `sap.features.product-availability-v2-endpoint-enabled` | Use V2 availability endpoint | — (default: false) |
+| `sap.features.package-configuration-v2-endpoint-enabled` | Use V2 package config endpoint | — (default: false) |
 
-| Property | Description | Default |
-|----------|-------------|---------|
-| `sap.base-url` | SAP ByDesign base URL | *required* |
-| `sap.env` | Environment segment in URL path (e.g. `test`, `production`) | *required* |
-| `sap.encrypt-key` | Encryption key for sensitive payloads | — |
-| `sap.origin-project` | Origin project identifier | — |
-| `sap.credentials.auth-type` | Authentication type: `BASIC` or `OAUTH2` | `BASIC` |
-| `sap.credentials.username` | Basic auth username | — |
-| `sap.credentials.password` | Basic auth password | — |
-| `sap.credentials.oauth-client-id` | OAuth2 client ID | — |
-| `sap.credentials.oauth-client-secret` | OAuth2 client secret | — |
-| `sap.credentials.oauth-token-url` | OAuth2 token endpoint URL | — |
-| `sap.features.customer-v2-endpoint-enabled` | Use V2 customer fetch/create/update endpoints | `false` |
-| `sap.features.sales-order-v3-endpoint-enabled` | Use V3 sales order endpoints | `false` |
-| `sap.features.sales-order-v4-endpoint-enabled` | Use V4 sales order endpoints | `false` |
-| `sap.features.sales-order-v5-endpoint-enabled` | Use V5 sales order endpoints | `false` |
-| `sap.features.product-availability-v2-endpoint-enabled` | Use V2 product availability endpoint | `false` |
-| `sap.features.package-configuration-v2-endpoint-enabled` | Use V2 package configuration endpoint | `false` |
+The auto-configuration is a no-op if `sap.base-url` is not set — safe to include in the classpath without configuring.
 
-## Clients Overview
+---
 
-| Client | Bean Type | Key Operations |
-|--------|-----------|----------------|
-| **AccountClient** | `@Service` | `fetch`, `fetchByUUID`, `fetchById`, `checkDuplication`, `create`, `update`, `deleteAddress`, `createAddress` |
-| **ProductClient** | `@Component` | `fetch`, `fetchOne`, `fetchCategories`, `fetchAvailability`, `fetchSalesPriceLists`, `fetchPrices` |
-| **SalesOrderClient** | `@Component` | `fetch`, `fetchOne`, `create`, `update`, `cancel` |
-| **RentalOrderClient** | `@Component` | `create`, `priceCheck`, `rateCheck` |
-| **RentalProductClient** | `@Component` | `fetchSerializedItems` |
-| **EmployeeClient** | `@Component` | `fetch` |
-| **DeliveryCostClient** | `@Component` | `fetch` |
+## Clients
+
+All clients are registered as Spring beans via `SapAutoConfiguration`. Each can be overridden with `@ConditionalOnMissingBean`.
+
+| Client | Operations |
+|--------|------------|
+| `AccountClient` | `fetch`, `fetchByUUID`, `fetchById`, `fetchByIds`, `fetchByTargetGroup`, `checkDuplication`, `create`, `update`, `deleteAddress`, `createAddress`, `deleteContact`, `createContact` |
+| `ProductClient` | `fetch`, `fetchOne`, `fetchCategories`, `fetchAttributes`, `fetchPackageConfigurations`, `fetchSalesPriceLists`, `fetchPrices`, `fetchPricesByPriceList`, `fetchAvailability`, `fetchStock`, `fetchDetails`, `fetchMaterialAttribute` |
+| `SalesOrderClient` | `fetch`, `fetchOne`, `create`, `update`, `cancel` |
+| `RentalOrderClient` | `create`, `checkPrice`, `checkRate` |
+| `RentalProductClient` | `fetchSerializedItems` |
+| `EmployeeClient` | `fetch` |
+| `DeliveryCostClient` | `fetch` |
+
+---
 
 ## Feature Flags
 
-Feature flags control which API version is used for specific endpoints. They allow gradual migration to newer SAP ByDesign API versions:
+Feature flags route requests to newer SAP API versions without code changes. Evaluated at request time from `application.yml` — restart required to change.
 
-| Flag | Effect |
-|------|--------|
-| `customer-v2-endpoint-enabled` | Routes `AccountClient.fetch()` and `create/update` to V2 endpoints |
-| `sales-order-v3-endpoint-enabled` | Routes `SalesOrderClient.fetch()` and `create()` to V3 |
-| `sales-order-v4-endpoint-enabled` | Overrides V3 → routes to V4 |
-| `sales-order-v5-endpoint-enabled` | Overrides V4 → routes to V5 (highest priority) |
-| `product-availability-v2-endpoint-enabled` | Routes `ProductClient.fetchAvailability()` to V2 |
-| `package-configuration-v2-endpoint-enabled` | Routes `ProductClient.fetchPackageConfigurations()` to V2 |
+**Sales Order routing** (V5 > V4 > V3 > V1 default):
+```yaml
+sap.features.sales-order-v5-endpoint-enabled: true   # uses V5, overrides V3/V4
+```
 
-Sales order flags are evaluated in priority order: V5 > V4 > V3 > V1 (default).
+**Customer routing** (V2 when enabled, V1 default):
+```yaml
+sap.features.customer-v2-endpoint-enabled: true
+```
+
+---
 
 ## Authentication
 
@@ -142,7 +158,10 @@ sap:
     auth-type: BASIC
     username: sap-api-user
     password: sap-api-password
+  origin-project: ep
 ```
+
+Sends `Authorization: Basic <base64>` + `Origin-Project: ep` on every request.
 
 ### OAUTH2
 
@@ -152,98 +171,93 @@ sap:
     auth-type: OAUTH2
     oauth-client-id: your-client-id
     oauth-client-secret: your-client-secret
-    oauth-token-url: https://your-sap-instance.sapbydesign.com/sap/bc/sec/oauth2/token
+    oauth-token-url: https://your-sap.example.com/oauth/token
+  origin-project: ep
 ```
 
-The SDK automatically handles token acquisition and adds Bearer tokens to requests via `OAuth2BearerTokenInterceptor`.
+Fetches a `client_credentials` token automatically. Token is cached and refreshed 30 seconds before expiry. Also sends `Origin-Project: ep` on every request.
+
+---
 
 ## Error Handling
 
-The SDK provides a structured exception hierarchy:
+The SDK throws two exception types — both are unchecked (`RuntimeException`):
 
-- **`SapClientException`** — base exception for all SAP API errors (HTTP errors, timeouts, deserialization failures)
-- **`AccountOrderBlockException`** extends `SapClientException` — thrown when an account has an active order block
+| Exception | When thrown | Log level |
+|-----------|-------------|-----------|
+| `AccountOrderBlockException` | SAP returns AP* error code or order-block TypeID | `WARN` |
+| `SapClientException` | All other SAP errors, timeouts, deserialization failures | `WARN` (business) / `ERROR` (system/unexpected) |
 
-Both are unchecked (`RuntimeException`). Example handling:
+`AccountOrderBlockException` extends `SapClientException` — catching `SapClientException` catches both.
+
+Example handler:
 
 ```java
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class SapErrorHandler {
 
     @ExceptionHandler(AccountOrderBlockException.class)
-    public ResponseEntity<?> handleBlocked(AccountOrderBlockException ex) {
-        return ResponseEntity.status(422)
-            .body(Map.of("error", "Account blocked", "message", ex.getMessage()));
+    public ResponseEntity<?> orderBlock(AccountOrderBlockException e) {
+        return ResponseEntity.unprocessableEntity()
+                .body(Map.of("error", "account_blocked", "message", e.getMessage()));
     }
 
     @ExceptionHandler(SapClientException.class)
-    public ResponseEntity<?> handleSapError(SapClientException ex) {
+    public ResponseEntity<?> sapError(SapClientException e) {
         return ResponseEntity.status(502)
-            .body(Map.of("error", "SAP error", "message", ex.getMessage()));
+                .body(Map.of("error", "sap_error", "message", e.getMessage()));
     }
 }
 ```
 
+---
+
 ## Running the Demo
 
-The demo app uses WireMock to simulate SAP ByDesign responses — no real SAP credentials needed.
+The demo app simulates all SAP responses via WireMock — no real SAP credentials needed.
 
-### With Docker Compose
+### Start
 
 ```bash
 docker compose up --build
 ```
 
-This starts:
-- **WireMock** on port 9090 (SAP mock)
-- **Demo app** on port 8080
+Starts:
+- **WireMock** on `localhost:9090` — simulates SAP ByDesign
+- **Demo app** on `localhost:8080` — Spring Boot app using the SDK
 
-### Try the endpoints
+### Endpoints
 
 ```bash
-# List accounts
+# Accounts
 curl http://localhost:8080/demo/accounts
-
-# Get single account
 curl http://localhost:8080/demo/accounts/acc-uuid-001
-
-# Check for duplicates
 curl "http://localhost:8080/demo/accounts/check-duplicate?name=Test&street=Main%20St&city=Berlin&country=DE"
 
-# List products
+# Products
 curl http://localhost:8080/demo/products
-
-# Get product availability
+curl http://localhost:8080/demo/products/P001
 curl "http://localhost:8080/demo/products/P001/availability?from=2026-03-01&to=2026-03-31"
-
-# Product categories
 curl http://localhost:8080/demo/products/categories
-
-# Price lists
 curl http://localhost:8080/demo/products/price-lists
 
 # Sales orders
 curl http://localhost:8080/demo/sales-orders
-
-# Single sales order
 curl http://localhost:8080/demo/sales-orders/SO-100001
 
-# Rental items
+# Rental
 curl http://localhost:8080/demo/rental/items
 
 # Employees
 curl http://localhost:8080/demo/employees
 
-# Health check
+# Health
 curl http://localhost:8080/actuator/health
 ```
 
+---
+
 ## Development
-
-### Prerequisites
-
-- Java 21
-- Maven 3.9+
 
 ### Build
 
@@ -251,29 +265,35 @@ curl http://localhost:8080/actuator/health
 mvn clean package
 ```
 
-### Run tests
+### Test
 
 ```bash
 mvn test
 ```
 
-Tests use [WireMock Spring Boot](https://github.com/maciejwalkowiak/wiremock-spring-boot) for integration testing against mocked SAP responses.
+Tests use [WireMock Spring Boot](https://github.com/maciejwalkowiak/wiremock-spring-boot) — no external services needed.
 
-### Run demo locally (without Docker)
+### Run demo without Docker
 
 ```bash
-# Start WireMock standalone first, then:
-SAP_BASE_URL=http://localhost:9090 SAP_ENV=test \
-  mvn spring-boot:run -pl sap-sdk-demo
+# Terminal 1 — start WireMock standalone
+docker run -p 9090:8080 -v $(pwd)/wiremock:/home/wiremock wiremock/wiremock:3.3.1
+
+# Terminal 2 — start demo
+SAP_BASE_URL=http://localhost:9090 SAP_ENV=test mvn spring-boot:run -pl sap-sdk-demo
 ```
+
+---
 
 ## Risk Register
 
-| ID | Risk | Mitigation |
-|----|------|------------|
-| **RISK-001** | URL contract: SDK builds URLs as `{baseUrl}/http/{env}/{route}`. Any SAP-side URL restructuring breaks all clients. | Routes are defined as constants in each client class. Central `BaseSapClient.buildUrl()` makes changes single-point. |
-| **RISK-002** | AES byte-compatibility: The `X-Origin-Project` header uses AES-256-CTR + HMAC-SHA256. Wire format: `Base64(IV[16] \|\| HMAC-SHA256(IV\|\|ciphertext)[32] \|\| ciphertext)`. If the Java output differs from the PHP SDK byte-for-byte, every SAP request is rejected by the middleware. Cross-language verification is **pending** before staging go-live. | Verify by encrypting identical plaintext in both SDKs and comparing base64 output byte-by-byte. |
-| **RISK-005** | Non-standard routes: Some SAP endpoints (e.g. `material-attribute/get`) don't follow the `v{N}/resource/action` pattern. | These routes are explicitly documented in `ProductClient` and work correctly with `buildUrl()`. |
+| ID | Status | Risk | Notes |
+|----|--------|------|-------|
+| **RISK-001** | 🟡 Open | URL contract: SDK builds URLs as `{base-url}/http/{env}/{route}`. SAP-side restructuring breaks all clients without code change. | Routes are constants in each client. `BaseSapClient.buildUrl()` is the single mutation point. |
+| **RISK-002** | ✅ Resolved | Origin-Project header: Previously implemented with AES-256-CTR + HMAC-SHA256 encryption. PHP SDK actually sends it as a plain string (`ep`, `eshop`). Fixed in v0.1.2. | Both header name (`Origin-Project`, not `X-Origin-Project`) and value format are now correct. |
+| **RISK-005** | 🟡 Open | Non-standard routes: Two product endpoints don't follow the `v{N}/resource/action` pattern (`product-material-attribute/1.0.0/get`, `material-attribute/get`). | Documented in `ProductClient`. `buildUrl()` handles them correctly. Monitor if SAP renames these. |
+
+---
 
 ## License
 
