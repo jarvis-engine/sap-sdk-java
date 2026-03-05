@@ -24,7 +24,8 @@ public class SalesOrder {
     private String status;
     private OffsetDateTime createdAt;
     private OrderTotals totals;
-    private int creditWorthinessStatus;
+    @Nullable
+    private String creditWorthinessStatus;
 
     @Nullable
     private String paymentOption;

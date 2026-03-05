@@ -272,7 +272,7 @@ SAP_BASE_URL=http://localhost:9090 SAP_ENV=test \
 | ID | Risk | Mitigation |
 |----|------|------------|
 | **RISK-001** | URL contract: SDK builds URLs as `{baseUrl}/http/{env}/{route}`. Any SAP-side URL restructuring breaks all clients. | Routes are defined as constants in each client class. Central `BaseSapClient.buildUrl()` makes changes single-point. |
-| **RISK-002** | PHP parity: This SDK must maintain feature parity with the PHP `sap-sdk`. Missing operations or behavioral differences could cause production issues. | Each client method is documented against its PHP equivalent. Integration tests validate response shapes. |
+| **RISK-002** | AES byte-compatibility: The `X-Origin-Project` header uses AES-256-CTR + HMAC-SHA256. Wire format: `Base64(IV[16] \|\| HMAC-SHA256(IV\|\|ciphertext)[32] \|\| ciphertext)`. If the Java output differs from the PHP SDK byte-for-byte, every SAP request is rejected by the middleware. Cross-language verification is **pending** before staging go-live. | Verify by encrypting identical plaintext in both SDKs and comparing base64 output byte-by-byte. |
 | **RISK-005** | Non-standard routes: Some SAP endpoints (e.g. `material-attribute/get`) don't follow the `v{N}/resource/action` pattern. | These routes are explicitly documented in `ProductClient` and work correctly with `buildUrl()`. |
 
 ## License

@@ -59,7 +59,7 @@ public class AccountClient extends BaseSapClient {
     public List<Account> fetch(SapQuery query) {
         String base = properties.getFeatures().isCustomerV2EndpointEnabled()
                 ? CUSTOMER_V2_FETCH : CUSTOMER_V1_FETCH;
-        String route = appendQueryParams(base, query.toParamMap());
+        String route = appendQueryParams(base, query != null ? query.toParamMap() : java.util.Map.of());
         return getList(route, Account.class);
     }
 

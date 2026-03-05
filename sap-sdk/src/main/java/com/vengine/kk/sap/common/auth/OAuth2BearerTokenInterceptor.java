@@ -91,7 +91,7 @@ public class OAuth2BearerTokenInterceptor implements ClientHttpRequestIntercepto
             this.cachedToken = tokenResponse.getAccessToken();
             this.expiresAt = System.currentTimeMillis() + (tokenResponse.getExpiresIn() * 1000);
 
-            log.info("SAP OAuth2 token acquired, expires in {}s", tokenResponse.getExpiresIn());
+            log.debug("SAP OAuth2 token acquired, expires in {}s", tokenResponse.getExpiresIn());
         } catch (SapClientException e) {
             throw e;
         } catch (Exception e) {

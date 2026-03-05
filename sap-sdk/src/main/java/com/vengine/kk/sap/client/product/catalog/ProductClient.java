@@ -61,7 +61,7 @@ public class ProductClient extends BaseSapClient {
      * Fetches a paginated list of products.
      */
     public List<Product> fetch(SapQuery query) {
-        return getList(withQuery(PRODUCT_GET, query), Product.class);
+        return getList(appendQueryParams(PRODUCT_GET, query != null ? query.toParamMap() : java.util.Map.of()), Product.class);
     }
 
     /**
@@ -164,27 +164,4 @@ public class ProductClient extends BaseSapClient {
         return get(MATERIAL_ATTRIBUTE + "?productId=" + productId, ProductAttribute.class);
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    private String withQuery(String route, SapQuery query) {
-        if (query == null) {
-            return route;
-        }
-        StringBuilder sb = new StringBuilder(route);
-        String sep = "?";
-        if (query.getLimit() != null) {
-            sb.append(sep).append("limit=").append(query.getLimit());
-            sep = "&";
-        }
-        if (query.getLastId() != null) {
-            sb.append(sep).append("lastId=").append(query.getLastId());
-            sep = "&";
-        }
-        if (query.getCountryCode() != null) {
-            sb.append(sep).append("countryCode=").append(query.getCountryCode());
-        }
-        return sb.toString();
-    }
 }

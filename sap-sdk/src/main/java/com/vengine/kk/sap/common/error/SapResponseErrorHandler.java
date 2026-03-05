@@ -1,5 +1,6 @@
 package com.vengine.kk.sap.common.error;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vengine.kk.sap.common.exception.AccountOrderBlockException;
 import com.vengine.kk.sap.common.exception.SapClientException;
@@ -9,29 +10,13 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
-/**
- * HTTP error handler for SAP ByDesign responses.
- *
- * <p>On 4xx/5xx, reads the response body and inspects the SAP {@code Log.Item} array
- * for severity codes:
- * <ul>
- *   <li>3 = error → throw {@link SapClientException} (or a more specific subtype)</li>
- *   <li>2 = warning → log only</li>
- * </ul>
- *
- * <p>Maps from PHP {@code ResponseErrorHandler} and {@code SapExceptionHandler}.
- */
 @Slf4j
 public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
 
-    private static final int CODE_ERROR   = 3;
-    private static final int CODE_WARNING = 2;
-
-    private static final String TYPE_ID_ORDER_BLOCK = "034(/CL_CDA_BUSDT/)";
+    private static final String ORDER_BLOCK_TYPE_ID = "034(/CL_CDA_BUSDT/)";
+    private static final int SEVERITY_ERROR   = 3;
+    private static final int SEVERITY_WARNING = 2;
 
     private final ObjectMapper objectMapper;
 
@@ -43,85 +28,58 @@ public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
     public void handleError(ClientHttpResponse response) throws IOException {
         byte[] bodyBytes = getResponseBody(response);
         String body = new String(bodyBytes, StandardCharsets.UTF_8);
+        int status = response.getStatusCode().value();
 
-        log.error("SAP API error — HTTP {}: {}", response.getStatusCode(), body);
+        log.error("SAP API error — HTTP {}: {}", status, body);
 
-        // Try to parse SAP Log envelope and match to specific exceptions
         try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> parsed = objectMapper.readValue(body, Map.class);
-            checkForErrors(parsed, "HTTP " + response.getStatusCode());
-        } catch (SapClientException e) {
-            throw e;
-        } catch (Exception e) {
-            // Fall back to generic exception if body is not parseable JSON
-            throw new SapClientException("SAP HTTP error " + response.getStatusCode() + ": " + body);
-        }
+            JsonNode root = objectMapper.readTree(body);
 
-        // Generic fallback if no errors found in log
-        throw new SapClientException("SAP HTTP error " + response.getStatusCode() + ": " + body);
-    }
-
-    /**
-     * Inspects the SAP {@code Log.Item} array in the response body for error entries.
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private void checkForErrors(Map<String, Object> contents, String operation) {
-        Object log = contents.get("Log");
-        if (!(log instanceof Map)) {
-            return;
-        }
-
-        Object item = ((Map<?, ?>) log).get("Item");
-        if (item == null) {
-            return;
-        }
-
-        List<Map<String, Object>> logArray;
-        if (item instanceof List) {
-            logArray = (List<Map<String, Object>>) item;
-        } else if (item instanceof Map) {
-            logArray = Collections.singletonList((Map<String, Object>) item);
-        } else {
-            return;
-        }
-
-        handle(logArray, operation);
-    }
-
-    private void handle(List<Map<String, Object>> logArray, String operation) {
-        for (Map<String, Object> record : logArray) {
-            Object severityObj = record.get("SeverityCode");
-            int severity = 0;
-            if (severityObj instanceof Number) {
-                severity = ((Number) severityObj).intValue();
-            } else if (severityObj instanceof String) {
-                try {
-                    severity = Integer.parseInt((String) severityObj);
-                } catch (NumberFormatException ignored) {
+            // 1. Try OData error format: {"error": {"code": "...", "message": {"value": "..."}}}
+            JsonNode errorNode = root.get("error");
+            if (errorNode != null && !errorNode.isNull()) {
+                String code    = errorNode.path("code").asText("");
+                String message = errorNode.path("message").path("value").asText("");
+                if (!message.isBlank() || !code.isBlank()) {
+                    if (code.startsWith("AP")) throw new AccountOrderBlockException(message);
+                    if (code.startsWith("SY")) throw new SapClientException("SAP system error");
+                    throw new SapClientException(message.isBlank() ? "SAP error (HTTP " + status + ")" : message);
                 }
             }
 
-            if (CODE_WARNING == severity) {
-                log.warn("{} SAP operation warning: {}", operation, record);
+            // 2. Try Log.Item format: {"Log": {"Item": [...]}} or {"Log": {"Item": {...}}}
+            JsonNode logNode = root.path("Log").path("Item");
+            if (!logNode.isMissingNode() && !logNode.isNull()) {
+                if (logNode.isArray()) {
+                    for (JsonNode item : logNode) processLogItem(item);
+                } else if (logNode.isObject()) {
+                    processLogItem(logNode);
+                }
             }
 
-            if (CODE_ERROR == severity) {
-                log.error("{} SAP operation fail: {}", operation, record);
-                throw matchErrorCodeToException(record);
-            }
+        } catch (SapClientException | AccountOrderBlockException e) {
+            throw e;
+        } catch (Exception ignored) {
+            // body not parseable JSON — fall through to generic
         }
+
+        // Generic fallback
+        throw new SapClientException("SAP HTTP error " + status);
     }
 
-    private SapClientException matchErrorCodeToException(Map<String, Object> error) {
-        String typeId = (String) error.getOrDefault("TypeID", "");
-        String note   = (String) error.getOrDefault("Note",   "");
-
-        if (TYPE_ID_ORDER_BLOCK.equals(typeId)) {
-            return new AccountOrderBlockException("Account has order block");
+    private void processLogItem(JsonNode item) {
+        int severityCode = item.path("SeverityCode").asInt(0);
+        if (severityCode == SEVERITY_WARNING) {
+            log.warn("SAP Log.Item warning: {}", item);
         }
-
-        return new SapClientException(
-                String.format("Unknown SAP error code: %s, note: %s", typeId, note));
+        if (severityCode == SEVERITY_ERROR) {
+            log.error("SAP Log.Item error: {}", item);
+            String typeId = item.path("TypeID").asText("");
+            String note   = item.path("Note").asText("");
+            if (ORDER_BLOCK_TYPE_ID.equals(typeId)) {
+                throw new AccountOrderBlockException("Account has order block");
+            }
+            throw new SapClientException("Unknown SAP error code: " + typeId + ", note: " + note);
+        }
     }
 }

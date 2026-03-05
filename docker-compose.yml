@@ -7,6 +7,11 @@ services:
     volumes:
       - ./wiremock:/home/wiremock
     command: --verbose
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/__admin/mappings || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   demo:
     build: .
@@ -19,4 +24,5 @@ services:
       SAP_USERNAME: demo-user
       SAP_PASSWORD: demo-pass
     depends_on:
-      - wiremock
+      wiremock:
+        condition: service_healthy

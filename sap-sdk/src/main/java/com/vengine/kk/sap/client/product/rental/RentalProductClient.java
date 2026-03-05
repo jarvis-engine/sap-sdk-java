@@ -31,26 +31,6 @@ public class RentalProductClient extends BaseSapClient {
      * Fetches serialized rental items (equipment with serial numbers).
      */
     public List<SerializedItem> fetchSerializedItems(SapQuery query) {
-        return getList(withQuery(SERIALIZED_ITEMS, query), SerializedItem.class);
-    }
-
-    private String withQuery(String route, SapQuery query) {
-        if (query == null) {
-            return route;
-        }
-        StringBuilder sb = new StringBuilder(route);
-        String sep = "?";
-        if (query.getLimit() != null) {
-            sb.append(sep).append("limit=").append(query.getLimit());
-            sep = "&";
-        }
-        if (query.getLastId() != null) {
-            sb.append(sep).append("lastId=").append(query.getLastId());
-            sep = "&";
-        }
-        if (query.getCountryCode() != null) {
-            sb.append(sep).append("countryCode=").append(query.getCountryCode());
-        }
-        return sb.toString();
+        return getList(appendQueryParams(SERIALIZED_ITEMS, query != null ? query.toParamMap() : java.util.Map.of()), SerializedItem.class);
     }
 }

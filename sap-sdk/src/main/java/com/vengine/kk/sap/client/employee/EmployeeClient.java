@@ -31,26 +31,6 @@ public class EmployeeClient extends BaseSapClient {
      * Fetches a paginated list of employees.
      */
     public List<Employee> fetch(SapQuery query) {
-        return getList(withQuery(EMPLOYEE_GET, query), Employee.class);
-    }
-
-    private String withQuery(String route, SapQuery query) {
-        if (query == null) {
-            return route;
-        }
-        StringBuilder sb = new StringBuilder(route);
-        String sep = "?";
-        if (query.getLimit() != null) {
-            sb.append(sep).append("limit=").append(query.getLimit());
-            sep = "&";
-        }
-        if (query.getLastId() != null) {
-            sb.append(sep).append("lastId=").append(query.getLastId());
-            sep = "&";
-        }
-        if (query.getCountryCode() != null) {
-            sb.append(sep).append("countryCode=").append(query.getCountryCode());
-        }
-        return sb.toString();
+        return getList(appendQueryParams(EMPLOYEE_GET, query != null ? query.toParamMap() : java.util.Map.of()), Employee.class);
     }
 }
