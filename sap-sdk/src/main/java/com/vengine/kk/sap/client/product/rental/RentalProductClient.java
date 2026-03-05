@@ -18,7 +18,7 @@ import java.util.Map;
  * Items missing required fields ({@link SerializedItemValidator}) are silently filtered.
  */
 @Slf4j
-public class RentalProductClient extends BaseSapClient {
+public class RentalProductClient extends BaseSapClient implements RentalProductClientInterface {
 
     private static final String SERIALIZED_ITEMS = "v1/service-product/get";
 

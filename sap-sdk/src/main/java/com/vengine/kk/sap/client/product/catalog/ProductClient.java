@@ -22,7 +22,7 @@ import java.util.Map;
  * </ul>
  */
 @Slf4j
-public class ProductClient extends BaseSapClient {
+public class ProductClient extends BaseSapClient implements ProductClientInterface {
 
     // Standard versioned routes (appended after {baseUrl}/http/{env}/)
     private static final String PRODUCT_GET              = "v1/product/get";

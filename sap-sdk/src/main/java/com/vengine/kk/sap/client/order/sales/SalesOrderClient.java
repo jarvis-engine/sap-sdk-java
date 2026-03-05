@@ -17,7 +17,7 @@ import java.util.Map;
  * Feature-flag-aware routing: V3/V4/V5 when enabled, V1/V2 fallback.
  */
 @Slf4j
-public class SalesOrderClient extends BaseSapClient {
+public class SalesOrderClient extends BaseSapClient implements SalesOrderClientInterface {
 
     // V1 routes
     private static final String ORDER_V1_GET    = "v1/sales-order/get";

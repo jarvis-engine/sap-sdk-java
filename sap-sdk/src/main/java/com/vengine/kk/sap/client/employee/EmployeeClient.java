@@ -13,7 +13,7 @@ import java.util.List;
  * SAP ByDesign client for employee operations.
  */
 @Slf4j
-public class EmployeeClient extends BaseSapClient {
+public class EmployeeClient extends BaseSapClient implements EmployeeClientInterface {
 
     private static final String EMPLOYEE_GET = "v1/employee/get";
 

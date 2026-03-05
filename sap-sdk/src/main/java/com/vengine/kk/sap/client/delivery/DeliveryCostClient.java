@@ -12,7 +12,7 @@ import java.util.List;
  * SAP ByDesign client for delivery/shipping cost operations.
  */
 @Slf4j
-public class DeliveryCostClient extends BaseSapClient {
+public class DeliveryCostClient extends BaseSapClient implements DeliveryCostClientInterface {
 
     private static final String DELIVERY_COST_GET = "v1/sales-order/shipping-costs/get";
 

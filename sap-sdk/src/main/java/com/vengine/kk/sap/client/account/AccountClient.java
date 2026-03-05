@@ -20,7 +20,7 @@ import java.util.Map;
  * <p>Route selection respects the {@code sap.features.customerV2EndpointEnabled} flag:
  * when enabled, fetch/create/update use the V2 endpoints.
  */
-public class AccountClient extends BaseSapClient {
+public class AccountClient extends BaseSapClient implements AccountClientInterface {
 
     // Route paths (without leading slash — buildUrl() adds the prefix)
     // V1 routes

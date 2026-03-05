@@ -30,7 +30,7 @@ import java.util.Map;
  * {@code RentalPriceCheckNormalizer}, and {@code RentalRateCheckNormalizer}.
  */
 @Slf4j
-public class RentalOrderClient extends BaseSapClient {
+public class RentalOrderClient extends BaseSapClient implements RentalOrderClientInterface {
 
     private static final String RENTAL_ORDER_CREATE      = "v1/service-order/post";
     private static final String RENTAL_ORDER_CHECK_PRICE = "v1/service-order/rental-price/get";
