@@ -31,63 +31,63 @@
         "status": 200,
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
-          "d": {
-            "results": [
+          "KKDigital_GetSerializedItems_sync": {
+            "FixedAsset": [
               {
-                "internalUuid": "f4a1-0001",
-                "articleNumber": "MAT-20001",
-                "serialNumber": "SN-LH-R920-001",
-                "costCenterId": "CC-BAGGER-01",
-                "enabled": true
+                "UUID": "f4a1-0001",
+                "VVS_UnitType": "MAT-20001",
+                "VVS_UnitNumber": "SN-LH-R920-001",
+                "CostCentreID": "CC-BAGGER-01",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0002",
-                "articleNumber": "MAT-20002",
-                "serialNumber": "SN-LH-R936-001",
-                "costCenterId": "CC-BAGGER-01",
-                "enabled": true
+                "UUID": "f4a1-0002",
+                "VVS_UnitType": "MAT-20002",
+                "VVS_UnitNumber": "SN-LH-R936-001",
+                "CostCentreID": "CC-BAGGER-01",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0003",
-                "articleNumber": "MAT-20002",
-                "serialNumber": "SN-LH-R936-002",
-                "costCenterId": "CC-BAGGER-01",
-                "enabled": true
+                "UUID": "f4a1-0003",
+                "VVS_UnitType": "MAT-20002",
+                "VVS_UnitNumber": "SN-LH-R936-002",
+                "CostCentreID": "CC-BAGGER-01",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0004",
-                "articleNumber": "MAT-20003",
-                "serialNumber": "SN-LH-LTM-001",
-                "costCenterId": "CC-KRAN-01",
-                "enabled": true
+                "UUID": "f4a1-0004",
+                "VVS_UnitType": "MAT-20003",
+                "VVS_UnitNumber": "SN-LH-LTM-001",
+                "CostCentreID": "CC-KRAN-01",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0005",
-                "articleNumber": "MAT-20004",
-                "serialNumber": "SN-LH-HS8100-001",
-                "costCenterId": "CC-KRAN-01",
-                "enabled": true
+                "UUID": "f4a1-0005",
+                "VVS_UnitType": "MAT-20004",
+                "VVS_UnitNumber": "SN-LH-HS8100-001",
+                "CostCentreID": "CC-KRAN-01",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0006",
-                "articleNumber": "MAT-20005",
-                "serialNumber": "SN-CAT-336-001",
-                "costCenterId": "CC-BAGGER-02",
-                "enabled": true
+                "UUID": "f4a1-0006",
+                "VVS_UnitType": "MAT-20005",
+                "VVS_UnitNumber": "SN-CAT-336-001",
+                "CostCentreID": "CC-BAGGER-02",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0007",
-                "articleNumber": "MAT-20006",
-                "serialNumber": "SN-TX-TC125-001",
-                "costCenterId": "CC-BAGGER-02",
-                "enabled": true
+                "UUID": "f4a1-0007",
+                "VVS_UnitType": "MAT-20006",
+                "VVS_UnitNumber": "SN-TX-TC125-001",
+                "CostCentreID": "CC-BAGGER-02",
+                "VVS_EnabledForFieldVu": "true"
               },
               {
-                "internalUuid": "f4a1-0008",
-                "articleNumber": "MAT-20007",
-                "serialNumber": "SN-LH-LTR-001",
-                "costCenterId": "CC-KRAN-01",
-                "enabled": false
+                "UUID": "f4a1-0008",
+                "VVS_UnitType": "MAT-20007",
+                "VVS_UnitNumber": "SN-LH-LTR-001",
+                "CostCentreID": "CC-KRAN-01",
+                "VVS_EnabledForFieldVu": "false"
               }
             ]
           }
@@ -104,9 +104,11 @@
         "status": 200,
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
-          "d": {
-            "internalId": "RO-2026-0042",
-            "uuid": "a3bc-9921"
+          "n0:ServiceOrderByElementsResponse_synC": {
+            "ServiceOrder": {
+              "ID": "RO-2026-0042",
+              "UUID": "a3bc-9921"
+            }
           }
         }
       }
@@ -121,23 +123,16 @@
         "status": 200,
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
-          "d": {
-            "currency": "EUR",
-            "distributionChannel": "01",
-            "salesUnitId": "SU-DE-01",
-            "sellerParty": "KK-DE",
-            "products": [
+          "KKDigital_RentalPriceCheck_sync": {
+            "Item": [
               {
-                "internalId": "MAT-20002",
-                "netUnitPriceAmount": "4200.00",
-                "netUnitPriceCurrency": "EUR",
-                "netTotalPriceAmount": "4200.00",
-                "netTotalPriceCurrency": "EUR",
-                "netBasePriceAmount": "4500.00",
-                "netBasePriceCurrency": "EUR",
-                "netDiscountAmount": "300.00",
-                "netDiscountCurrency": "EUR",
-                "discountPercentage": "6.67"
+                "ProductID": "MAT-20002",
+                "NetPrice": { "DecimalValue": "4200.00", "CurrencyCode": "EUR" },
+                "NetValue":  { "DecimalValue": "4200.00", "CurrencyCode": "EUR" },
+                "PriceComponents": [
+                  { "ConditionType": "7PR1", "ConditionRate": "4500.00" },
+                  { "ConditionType": "7PR6", "ConditionValue": "-300.00", "ConditionRate": "6.67" }
+                ]
               }
             ]
           }
@@ -154,12 +149,13 @@
         "status": 200,
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
-          "d": {
-            "calculationMode": "1",
-            "companyId": "KK-DE",
-            "quantity": 1,
-            "fixedReturnIndicator": false,
-            "planningPossible": true
+          "n0:RentalRateCalculatorReadByIDResponse_sync": {
+            "RentalRateCalculator": {
+              "SAP_UUID": "rate-uuid-001",
+              "Quantity": "1",
+              "RentalRate": "140.00",
+              "RentalRateName": "Tagessatz Bagger"
+            }
           }
         }
       }

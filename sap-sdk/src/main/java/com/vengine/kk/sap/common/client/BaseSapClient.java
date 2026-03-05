@@ -1,5 +1,6 @@
 package com.vengine.kk.sap.common.client;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.vengine.kk.sap.common.auth.SapAuthenticatedClientFactory;
 import com.vengine.kk.sap.common.config.SapProperties;
 import com.vengine.kk.sap.common.exception.SapClientException;
@@ -115,6 +116,73 @@ public abstract class BaseSapClient {
         try {
             log.debug("SAP DELETE {}", url);
             restTemplate.delete(url);
+        } catch (ResourceAccessException e) {
+            throw new SapClientException("SAP connection error: " + e.getMessage(), e);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // SAP envelope methods — for non-OData endpoints (rental, service orders)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    protected <T> T getWithNode(String route, String nodeKey, Class<T> responseType) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP GET (node={}) {}", nodeKey, url);
+            String body = restTemplate.getForObject(url, String.class);
+            return decoder.decodeWithNode(body, nodeKey, responseType);
+        } catch (ResourceAccessException e) {
+            throw new SapClientException("SAP connection error: " + e.getMessage(), e);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    protected <T> List<T> getListWithNode(String route, String nodeKey, Class<T> itemType) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP GET list (node={}) {}", nodeKey, url);
+            String body = restTemplate.getForObject(url, String.class);
+            return decoder.decodeListWithNode(body, nodeKey, itemType);
+        } catch (ResourceAccessException e) {
+            throw new SapClientException("SAP connection error: " + e.getMessage(), e);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    protected <T> T postWithNode(String route, Object body, String nodeKey, Class<T> responseType) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP POST (node={}) {}", nodeKey, url);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Object> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return decoder.decodeWithNode(response.getBody(), nodeKey, responseType);
+        } catch (ResourceAccessException e) {
+            throw new SapClientException("SAP connection error: " + e.getMessage(), e);
+        } finally {
+            MDC.remove("sap.route");
+        }
+    }
+
+    protected List<JsonNode> postRawListWithNode(
+            String route, Object body, String nodeKey) {
+        String url = buildUrl(route);
+        MDC.put("sap.route", route);
+        try {
+            log.debug("SAP POST raw list (node={}) {}", nodeKey, url);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Object> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            return decoder.decodeRawListWithNode(response.getBody(), nodeKey);
         } catch (ResourceAccessException e) {
             throw new SapClientException("SAP connection error: " + e.getMessage(), e);
         } finally {

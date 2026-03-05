@@ -4,8 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
 
+/**
+ * A single product result from a rental price check.
+ *
+ * <p>Returned as a list by {@link RentalOrderClient#checkPrice(RentalPriceCheckInput)}.
+ * Built by parsing the raw SAP {@code Item} array — see client for mapping logic.
+ *
+ * <p>PHP equivalent: {@code RentalPriceCheckProduct} (from {@code RentalPriceCheckNormalizer.denormalize()}).
+ *
+ * <p>SAP source fields per item:
+ * <ul>
+ *   <li>{@code ProductID} → internalId
+ *   <li>{@code NetPrice.DecimalValue} + {@code NetPrice.CurrencyCode} → netUnitPrice*
+ *   <li>{@code NetValue.DecimalValue} → netTotalPrice*
+ *   <li>PriceComponents ConditionType=7PR1 ConditionRate → netBasePrice*
+ *   <li>PriceComponents ConditionType=7PR6 ConditionValue → netDiscount*, ConditionRate → discountPercentage
+ * </ul>
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,25 +29,13 @@ import org.springframework.lang.Nullable;
 public class RentalPriceCheckProduct {
 
     private String internalId;
+    private String currency;
 
-    /** Net unit price amount */
     private String netUnitPriceAmount;
-    private String netUnitPriceCurrency;
-
-    /** Net total price amount */
     private String netTotalPriceAmount;
-    private String netTotalPriceCurrency;
-
-    /** Net base price amount */
     private String netBasePriceAmount;
-    private String netBasePriceCurrency;
-
-    @Nullable
     private String netDiscountAmount;
 
-    @Nullable
-    private String netDiscountCurrency;
-
-    @Nullable
+    /** Percentage as string, e.g. "6.67". Null if no discount. */
     private String discountPercentage;
 }
