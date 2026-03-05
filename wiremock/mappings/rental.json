@@ -1,6 +1,28 @@
 {
   "mappings": [
     {
+      "priority": 1,
+      "name": "rental-items-not-found",
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/service-product/get.*serialNumber=NOT-FOUND.*"
+      },
+      "response": {
+        "status": 404,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "error": {
+            "code": "BU_NOT_FOUND",
+            "message": {
+              "value": "Serialized item with serialNumber 'NOT-FOUND' does not exist in SAP ByDesign."
+            }
+          }
+        }
+      }
+    },
+    {
+      "priority": 10,
+      "name": "rental-items-list",
       "request": {
         "method": "GET",
         "urlPattern": "/http/test/v1/service-product/get.*"
@@ -12,24 +34,59 @@
           "d": {
             "results": [
               {
-                "internalUuid": "serial-uuid-001",
-                "articleNumber": "MAT-10001",
-                "serialNumber": "SN-EXC-2024-001",
-                "costCenterId": "CC-RENTAL-01",
+                "internalUuid": "f4a1-0001",
+                "articleNumber": "MAT-20001",
+                "serialNumber": "SN-LH-R920-001",
+                "costCenterId": "CC-BAGGER-01",
                 "enabled": true
               },
               {
-                "internalUuid": "serial-uuid-002",
-                "articleNumber": "MAT-10001",
-                "serialNumber": "SN-EXC-2024-002",
-                "costCenterId": "CC-RENTAL-01",
+                "internalUuid": "f4a1-0002",
+                "articleNumber": "MAT-20002",
+                "serialNumber": "SN-LH-R936-001",
+                "costCenterId": "CC-BAGGER-01",
                 "enabled": true
               },
               {
-                "internalUuid": "serial-uuid-003",
-                "articleNumber": "MAT-10002",
-                "serialNumber": "SN-CRN-2024-001",
-                "costCenterId": "CC-RENTAL-02",
+                "internalUuid": "f4a1-0003",
+                "articleNumber": "MAT-20002",
+                "serialNumber": "SN-LH-R936-002",
+                "costCenterId": "CC-BAGGER-01",
+                "enabled": true
+              },
+              {
+                "internalUuid": "f4a1-0004",
+                "articleNumber": "MAT-20003",
+                "serialNumber": "SN-LH-LTM-001",
+                "costCenterId": "CC-KRAN-01",
+                "enabled": true
+              },
+              {
+                "internalUuid": "f4a1-0005",
+                "articleNumber": "MAT-20004",
+                "serialNumber": "SN-LH-HS8100-001",
+                "costCenterId": "CC-KRAN-01",
+                "enabled": true
+              },
+              {
+                "internalUuid": "f4a1-0006",
+                "articleNumber": "MAT-20005",
+                "serialNumber": "SN-CAT-336-001",
+                "costCenterId": "CC-BAGGER-02",
+                "enabled": true
+              },
+              {
+                "internalUuid": "f4a1-0007",
+                "articleNumber": "MAT-20006",
+                "serialNumber": "SN-TX-TC125-001",
+                "costCenterId": "CC-BAGGER-02",
+                "enabled": true
+              },
+              {
+                "internalUuid": "f4a1-0008",
+                "articleNumber": "MAT-20007",
+                "serialNumber": "SN-LH-LTR-001",
+                "costCenterId": "CC-KRAN-01",
                 "enabled": false
               }
             ]
@@ -38,6 +95,7 @@
       }
     },
     {
+      "name": "rental-order-create",
       "request": {
         "method": "POST",
         "urlPattern": "/http/test/v1/service-order/post"
@@ -47,13 +105,14 @@
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
           "d": {
-            "internalId": "RO-200001",
-            "uuid": "rental-uuid-001"
+            "internalId": "RO-2026-0042",
+            "uuid": "a3bc-9921"
           }
         }
       }
     },
     {
+      "name": "rental-price-check",
       "request": {
         "method": "POST",
         "urlPattern": "/http/test/v1/service-order/rental-price/get"
@@ -63,15 +122,26 @@
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
           "d": {
-            "totalPrice": "4500.00",
             "currency": "EUR",
-            "pricePerDay": "150.00",
-            "days": 30
+            "distributionChannel": "01",
+            "salesUnitId": "SU-DE-01",
+            "sellerParty": "KK-DE",
+            "products": [
+              {
+                "internalId": "MAT-20002",
+                "quantity": 1,
+                "startDateTime": "2026-04-01T08:00:00Z",
+                "endDateTime": "2026-04-30T17:00:00Z",
+                "discount": "0",
+                "productPrice": "4200.00"
+              }
+            ]
           }
         }
       }
     },
     {
+      "name": "rental-rate-check",
       "request": {
         "method": "POST",
         "urlPattern": "/http/test/v1/rental-rate/post"
@@ -81,10 +151,11 @@
         "headers": { "Content-Type": "application/json" },
         "jsonBody": {
           "d": {
-            "dailyRate": "150.00",
-            "weeklyRate": "900.00",
-            "monthlyRate": "3600.00",
-            "currency": "EUR"
+            "calculationMode": "1",
+            "companyId": "KK-DE",
+            "quantity": 1,
+            "fixedReturnIndicator": false,
+            "planningPossible": true
           }
         }
       }

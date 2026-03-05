@@ -20,6 +20,15 @@ sap:
     product-availability-v2-endpoint-enabled: ${SAP_FEATURE_AVAIL_V2:false}
     package-configuration-v2-endpoint-enabled: ${SAP_FEATURE_PKG_V2:false}
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+    tagsSorter: alpha
+    doc-expansion: list
+  api-docs:
+    path: /v3/api-docs
+
 management:
   endpoints:
     web:
