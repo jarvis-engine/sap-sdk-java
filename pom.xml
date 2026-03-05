@@ -6,7 +6,7 @@
 
     <groupId>com.vengine.kk</groupId>
     <artifactId>sap-sdk-parent</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>pom</packaging>
 
     <name>SAP ByDesign SDK — Parent</name>
