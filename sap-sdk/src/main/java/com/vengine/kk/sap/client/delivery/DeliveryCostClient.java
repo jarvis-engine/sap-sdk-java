@@ -3,7 +3,6 @@ package com.vengine.kk.sap.client.delivery;
 import com.vengine.kk.sap.common.auth.SapAuthenticatedClientFactory;
 import com.vengine.kk.sap.common.client.BaseSapClient;
 import com.vengine.kk.sap.common.config.SapProperties;
-import com.vengine.kk.sap.common.error.SapExceptionHandler;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,9 +20,8 @@ public class DeliveryCostClient extends BaseSapClient {
 
     public DeliveryCostClient(SapAuthenticatedClientFactory factory,
                               SapProperties properties,
-                              SapResponseDecoder decoder,
-                              SapExceptionHandler exceptionHandler) {
-        super(factory, properties, decoder, exceptionHandler);
+                              SapResponseDecoder decoder) {
+        super(factory, properties, decoder);
     }
 
     /**

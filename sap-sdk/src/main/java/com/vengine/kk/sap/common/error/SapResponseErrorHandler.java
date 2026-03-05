@@ -57,8 +57,8 @@ public class SapResponseErrorHandler extends DefaultResponseErrorHandler {
                 }
             }
 
-        } catch (SapClientException | AccountOrderBlockException e) {
-            throw e;
+        } catch (SapClientException e) {
+            throw e;  // covers AccountOrderBlockException (subclass)
         } catch (Exception ignored) {
             // body not parseable JSON — fall through to generic
         }

@@ -3,7 +3,6 @@ package com.vengine.kk.sap.client.product.catalog;
 import com.vengine.kk.sap.common.auth.SapAuthenticatedClientFactory;
 import com.vengine.kk.sap.common.client.BaseSapClient;
 import com.vengine.kk.sap.common.config.SapProperties;
-import com.vengine.kk.sap.common.error.SapExceptionHandler;
 import com.vengine.kk.sap.common.model.SapQuery;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
@@ -47,9 +46,8 @@ public class ProductClient extends BaseSapClient {
 
     public ProductClient(SapAuthenticatedClientFactory factory,
                          SapProperties properties,
-                         SapResponseDecoder decoder,
-                         SapExceptionHandler exceptionHandler) {
-        super(factory, properties, decoder, exceptionHandler);
+                         SapResponseDecoder decoder) {
+        super(factory, properties, decoder);
         this.sapProperties = properties;
     }
 

@@ -171,6 +171,22 @@ class AccountClientIntegrationTest {
     }
 
     @Test
+    void sapApErrorViaOdataFormatThrowsAccountOrderBlockException() {
+        wireMock.stubFor(get(urlPathEqualTo("/http/test/v1/customer/get-one"))
+                .withQueryParam("uuid", equalTo("uuid-odata-blocked"))
+                .willReturn(aResponse()
+                        .withStatus(400)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("""
+                                {"error": {"code": "AP002", "message": {"value": "Customer order block active"}}}
+                                """)));
+
+        assertThatThrownBy(() -> accountClient.fetchByUUID("uuid-odata-blocked"))
+                .isInstanceOf(AccountOrderBlockException.class)
+                .hasMessage("Customer order block active");
+    }
+
+    @Test
     void http500WithGenericBodyThrowsSapClientException() {
         wireMock.stubFor(get(urlPathEqualTo("/http/test/v1/customer/get-one"))
                 .willReturn(aResponse()

@@ -4,7 +4,7 @@
       "priority": 5,
       "request": {
         "method": "GET",
-        "urlPattern": "/http/test/v1/customer/get.*"
+        "urlPath": "/http/test/v1/customer/get"
       },
       "response": {
         "status": 200,
@@ -26,7 +26,7 @@
                     "uuid": "addr-001",
                     "street": "Industriestraße 12",
                     "city": "München",
-                    "postalCode": "80331",
+                    "postCode": "80331",
                     "country": "DE"
                   }
                 ],
@@ -53,7 +53,7 @@
                     "uuid": "addr-002",
                     "street": "Hafenweg 5",
                     "city": "Hamburg",
-                    "postalCode": "20457",
+                    "postCode": "20457",
                     "country": "DE"
                   }
                 ],
@@ -75,7 +75,10 @@
       "priority": 3,
       "request": {
         "method": "GET",
-        "urlPattern": "/http/test/v1/customer/get-one.*uuid.*"
+        "urlPath": "/http/test/v1/customer/get-one",
+        "queryParameters": {
+          "uuid": { "matches": ".+" }
+        }
       },
       "response": {
         "status": 200,
@@ -95,7 +98,7 @@
                 "uuid": "addr-001",
                 "street": "Industriestraße 12",
                 "city": "München",
-                "postalCode": "80331",
+                "postCode": "80331",
                 "country": "DE"
               }
             ],
@@ -120,7 +123,10 @@
       "priority": 3,
       "request": {
         "method": "GET",
-        "urlPattern": "/http/test/v1/customer/get-one.*id.*"
+        "urlPath": "/http/test/v1/customer/get-one",
+        "queryParameters": {
+          "id": { "matches": ".+" }
+        }
       },
       "response": {
         "status": 200,

@@ -91,4 +91,47 @@ class SapResponseErrorHandlerTest {
         assertThatThrownBy(() -> handler.handleError(response(body)))
                 .isInstanceOf(AccountOrderBlockException.class);
     }
+
+    // OData format tests
+
+    @Test
+    void odataApCodeThrowsAccountOrderBlockException() {
+        String body = """
+                {"error": {"code": "AP001", "message": {"value": "Account has order block"}}}
+                """;
+        assertThatThrownBy(() -> handler.handleError(response(body)))
+                .isInstanceOf(AccountOrderBlockException.class)
+                .hasMessage("Account has order block");
+    }
+
+    @Test
+    void odataSyCodeThrowsSapClientExceptionSystemError() {
+        String body = """
+                {"error": {"code": "SY123", "message": {"value": "System failure"}}}
+                """;
+        assertThatThrownBy(() -> handler.handleError(response(body)))
+                .isInstanceOf(SapClientException.class)
+                .isNotInstanceOf(AccountOrderBlockException.class)
+                .hasMessage("SAP system error");
+    }
+
+    @Test
+    void odataUnknownCodeThrowsSapClientExceptionWithMessage() {
+        String body = """
+                {"error": {"code": "XX999", "message": {"value": "Something went wrong"}}}
+                """;
+        assertThatThrownBy(() -> handler.handleError(response(body)))
+                .isInstanceOf(SapClientException.class)
+                .hasMessage("Something went wrong");
+    }
+
+    @Test
+    void odataAndLogItemBothAbsentFallsToGeneric() {
+        String body = """
+                {"data": "no error here"}
+                """;
+        assertThatThrownBy(() -> handler.handleError(response(body)))
+                .isInstanceOf(SapClientException.class)
+                .hasMessageContaining("SAP HTTP error");
+    }
 }

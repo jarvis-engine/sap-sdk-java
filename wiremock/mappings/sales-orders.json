@@ -18,22 +18,20 @@
                 "status": "Open",
                 "createdAt": "2026-01-15T09:00:00Z",
                 "totals": {
-                  "netAmount": "155462.18",
-                  "grossAmount": "185000.00",
-                  "taxAmount": "29537.82",
-                  "currency": "EUR"
+                  "itemsNet": {"priceAmount": "155462.18", "priceCurrency": "EUR"},
+                  "totalAmount": {"priceAmount": "185000.00", "priceCurrency": "EUR"}
                 },
-                "creditWorthinessStatus": "Approved",
+                "creditWorthinessStatus": "1",
                 "paymentOption": "Invoice 30 days",
                 "accountParty": {
-                  "internalId": "1000001",
-                  "name": "Kurt König GmbH"
+                  "partyId": "1000001",
+                  "firstLineName": "Kurt König GmbH"
                 },
                 "billingParty": null,
                 "deliveryParty": null,
                 "employeeParty": {
-                  "internalId": "EMP-001",
-                  "name": "Max Müller"
+                  "partyId": "EMP-001",
+                  "firstLineName": "Max Müller"
                 },
                 "salesUnitId": "SU-DE-01",
                 "products": [
@@ -56,16 +54,14 @@
                 "status": "In Process",
                 "createdAt": "2026-02-20T11:30:00Z",
                 "totals": {
-                  "netAmount": "798319.33",
-                  "grossAmount": "950000.00",
-                  "taxAmount": "151680.67",
-                  "currency": "EUR"
+                  "itemsNet": {"priceAmount": "798319.33", "priceCurrency": "EUR"},
+                  "totalAmount": {"priceAmount": "950000.00", "priceCurrency": "EUR"}
                 },
-                "creditWorthinessStatus": "Pending",
+                "creditWorthinessStatus": "2",
                 "paymentOption": "Invoice 60 days",
                 "accountParty": {
-                  "internalId": "1000002",
-                  "name": "Baumaschinen Weber AG"
+                  "partyId": "1000002",
+                  "firstLineName": "Baumaschinen Weber AG"
                 },
                 "billingParty": null,
                 "deliveryParty": null,
@@ -106,22 +102,20 @@
             "status": "Open",
             "createdAt": "2026-01-15T09:00:00Z",
             "totals": {
-              "netAmount": "155462.18",
-              "grossAmount": "185000.00",
-              "taxAmount": "29537.82",
-              "currency": "EUR"
+              "itemsNet": {"priceAmount": "155462.18", "priceCurrency": "EUR"},
+              "totalAmount": {"priceAmount": "185000.00", "priceCurrency": "EUR"}
             },
-            "creditWorthinessStatus": "Approved",
+            "creditWorthinessStatus": "1",
             "paymentOption": "Invoice 30 days",
             "accountParty": {
-              "internalId": "1000001",
-              "name": "Kurt König GmbH"
+              "partyId": "1000001",
+              "firstLineName": "Kurt König GmbH"
             },
             "billingParty": null,
             "deliveryParty": null,
             "employeeParty": {
-              "internalId": "EMP-001",
-              "name": "Max Müller"
+              "partyId": "EMP-001",
+              "firstLineName": "Max Müller"
             },
             "salesUnitId": "SU-DE-01",
             "products": [
