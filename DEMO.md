@@ -70,7 +70,24 @@ Returns the calculated price for the Liebherr R936 over April: **€4,200.00**
 
 ---
 
-### Step 3 — Create rental order
+### Step 3 — Check rental rate
+
+```
+POST /demo/rental/rate-check
+```
+
+Body:
+```json
+{
+  "companyId": "KK-DE",
+  "quantity": 1,
+  "calculationMode": "1"
+}
+```
+
+---
+
+### Step 4 — Create rental order
 
 ```
 POST /demo/rental/orders
@@ -93,7 +110,7 @@ SAP creates the order and returns the ID:
 
 ---
 
-### Step 4 — Error handling (no try/catch needed)
+### Step 5 — Error handling (no try/catch needed)
 
 ```
 GET /demo/rental/items/error-demo

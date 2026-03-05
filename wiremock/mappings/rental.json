@@ -129,11 +129,15 @@
             "products": [
               {
                 "internalId": "MAT-20002",
-                "quantity": 1,
-                "startDateTime": "2026-04-01T08:00:00Z",
-                "endDateTime": "2026-04-30T17:00:00Z",
-                "discount": "0",
-                "productPrice": "4200.00"
+                "netUnitPriceAmount": "4200.00",
+                "netUnitPriceCurrency": "EUR",
+                "netTotalPriceAmount": "4200.00",
+                "netTotalPriceCurrency": "EUR",
+                "netBasePriceAmount": "4500.00",
+                "netBasePriceCurrency": "EUR",
+                "netDiscountAmount": "300.00",
+                "netDiscountCurrency": "EUR",
+                "discountPercentage": "6.67"
               }
             ]
           }
