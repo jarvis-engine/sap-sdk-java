@@ -1,0 +1,184 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/product/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              {
+                "id": "P001",
+                "productId": "MAT-10001",
+                "name": "CAT 320 Excavator",
+                "description": "Hydraulic excavator, 20t operating weight",
+                "productTypeCode": "MATERIAL",
+                "measureUnit": "EA",
+                "orderMinimumQuantity": 1,
+                "amountGross": "185000.00",
+                "currencyGross": "EUR",
+                "amountNet": "155462.18",
+                "currencyNet": "EUR",
+                "baseQuantity": 1,
+                "baseQuantityTypeCode": "EA",
+                "attributes": [],
+                "category": { "id": "CAT001", "name": "Excavators" },
+                "productAvailability": null,
+                "sortiment": "HEAVY",
+                "shippingGroup": "SG-HEAVY"
+              },
+              {
+                "id": "P002",
+                "productId": "MAT-10002",
+                "name": "Liebherr LTM 1100 Crane",
+                "description": "Mobile crane, 100t lifting capacity",
+                "productTypeCode": "MATERIAL",
+                "measureUnit": "EA",
+                "orderMinimumQuantity": 1,
+                "amountGross": "950000.00",
+                "currencyGross": "EUR",
+                "amountNet": "798319.33",
+                "currencyNet": "EUR",
+                "baseQuantity": 1,
+                "baseQuantityTypeCode": "EA",
+                "attributes": [],
+                "category": { "id": "CAT002", "name": "Cranes" },
+                "productAvailability": null,
+                "sortiment": "HEAVY",
+                "shippingGroup": "SG-OVERSIZE"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/product/get-one.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "id": "P001",
+            "productId": "MAT-10001",
+            "name": "CAT 320 Excavator",
+            "description": "Hydraulic excavator, 20t operating weight",
+            "productTypeCode": "MATERIAL",
+            "measureUnit": "EA",
+            "orderMinimumQuantity": 1,
+            "amountGross": "185000.00",
+            "currencyGross": "EUR",
+            "amountNet": "155462.18",
+            "currencyNet": "EUR",
+            "baseQuantity": 1,
+            "baseQuantityTypeCode": "EA",
+            "attributes": [
+              { "name": "Weight", "value": "20000", "unit": "kg" }
+            ],
+            "category": { "id": "CAT001", "name": "Excavators" },
+            "productAvailability": { "available": true, "quantity": 3 },
+            "sortiment": "HEAVY",
+            "shippingGroup": "SG-HEAVY"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/product/category/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              { "id": "CAT001", "name": "Excavators" },
+              { "id": "CAT002", "name": "Cranes" },
+              { "id": "CAT003", "name": "Loaders" },
+              { "id": "CAT004", "name": "Compactors" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/product/availability/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "available": true,
+            "quantity": 5
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/product/price-lists/ids/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              { "id": "PL001", "name": "Standard Price List" },
+              { "id": "PL002", "name": "Preferred Customer" },
+              { "id": "PL003", "name": "Rental Price List" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v2/product/prices/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              { "productId": "P001", "amount": "155462.18", "currency": "EUR" },
+              { "productId": "P002", "amount": "798319.33", "currency": "EUR" }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/material-attribute/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "name": "Material Class",
+            "value": "Heavy Equipment",
+            "unit": null
+          }
+        }
+      }
+    }
+  ]
+}

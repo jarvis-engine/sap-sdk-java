@@ -1,0 +1,93 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/service-product/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              {
+                "internalUuid": "serial-uuid-001",
+                "articleNumber": "MAT-10001",
+                "serialNumber": "SN-EXC-2024-001",
+                "costCenterId": "CC-RENTAL-01",
+                "enabled": true
+              },
+              {
+                "internalUuid": "serial-uuid-002",
+                "articleNumber": "MAT-10001",
+                "serialNumber": "SN-EXC-2024-002",
+                "costCenterId": "CC-RENTAL-01",
+                "enabled": true
+              },
+              {
+                "internalUuid": "serial-uuid-003",
+                "articleNumber": "MAT-10002",
+                "serialNumber": "SN-CRN-2024-001",
+                "costCenterId": "CC-RENTAL-02",
+                "enabled": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v1/service-order/post"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "internalId": "RO-200001",
+            "uuid": "rental-uuid-001"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v1/service-order/rental-price/get"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "totalPrice": "4500.00",
+            "currency": "EUR",
+            "pricePerDay": "150.00",
+            "days": 30
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v1/rental-rate/post"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "dailyRate": "150.00",
+            "weeklyRate": "900.00",
+            "monthlyRate": "3600.00",
+            "currency": "EUR"
+          }
+        }
+      }
+    }
+  ]
+}

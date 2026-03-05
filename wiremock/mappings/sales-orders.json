@@ -1,0 +1,173 @@
+{
+  "mappings": [
+    {
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/sales-order/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              {
+                "internalId": "SO-100001",
+                "uuid": "so-uuid-001",
+                "status": "Open",
+                "createdAt": "2026-01-15T09:00:00Z",
+                "totals": {
+                  "netAmount": "155462.18",
+                  "grossAmount": "185000.00",
+                  "taxAmount": "29537.82",
+                  "currency": "EUR"
+                },
+                "creditWorthinessStatus": "Approved",
+                "paymentOption": "Invoice 30 days",
+                "accountParty": {
+                  "internalId": "1000001",
+                  "name": "Kurt König GmbH"
+                },
+                "billingParty": null,
+                "deliveryParty": null,
+                "employeeParty": {
+                  "internalId": "EMP-001",
+                  "name": "Max Müller"
+                },
+                "salesUnitId": "SU-DE-01",
+                "products": [
+                  {
+                    "productId": "MAT-10001",
+                    "name": "CAT 320 Excavator",
+                    "quantity": 1,
+                    "netAmount": "155462.18",
+                    "currency": "EUR"
+                  }
+                ],
+                "shippingCondition": "Standard",
+                "clientExternalReference": "PO-2026-001",
+                "system": "SAP",
+                "distributionChannel": "01"
+              },
+              {
+                "internalId": "SO-100002",
+                "uuid": "so-uuid-002",
+                "status": "In Process",
+                "createdAt": "2026-02-20T11:30:00Z",
+                "totals": {
+                  "netAmount": "798319.33",
+                  "grossAmount": "950000.00",
+                  "taxAmount": "151680.67",
+                  "currency": "EUR"
+                },
+                "creditWorthinessStatus": "Pending",
+                "paymentOption": "Invoice 60 days",
+                "accountParty": {
+                  "internalId": "1000002",
+                  "name": "Baumaschinen Weber AG"
+                },
+                "billingParty": null,
+                "deliveryParty": null,
+                "employeeParty": null,
+                "salesUnitId": "SU-DE-01",
+                "products": [
+                  {
+                    "productId": "MAT-10002",
+                    "name": "Liebherr LTM 1100 Crane",
+                    "quantity": 1,
+                    "netAmount": "798319.33",
+                    "currency": "EUR"
+                  }
+                ],
+                "shippingCondition": "Express",
+                "clientExternalReference": "PO-2026-002",
+                "system": "SAP",
+                "distributionChannel": "01"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v2/sales-order/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "internalId": "SO-100001",
+            "uuid": "so-uuid-001",
+            "status": "Open",
+            "createdAt": "2026-01-15T09:00:00Z",
+            "totals": {
+              "netAmount": "155462.18",
+              "grossAmount": "185000.00",
+              "taxAmount": "29537.82",
+              "currency": "EUR"
+            },
+            "creditWorthinessStatus": "Approved",
+            "paymentOption": "Invoice 30 days",
+            "accountParty": {
+              "internalId": "1000001",
+              "name": "Kurt König GmbH"
+            },
+            "billingParty": null,
+            "deliveryParty": null,
+            "employeeParty": {
+              "internalId": "EMP-001",
+              "name": "Max Müller"
+            },
+            "salesUnitId": "SU-DE-01",
+            "products": [
+              {
+                "productId": "MAT-10001",
+                "name": "CAT 320 Excavator",
+                "quantity": 1,
+                "netAmount": "155462.18",
+                "currency": "EUR"
+              }
+            ],
+            "shippingCondition": "Standard",
+            "clientExternalReference": "PO-2026-001",
+            "system": "SAP",
+            "distributionChannel": "01"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v2/sales-order/post"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "internalId": "SO-100099",
+            "uuid": "so-uuid-new",
+            "status": "Created"
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v1/sales-order/cancel"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "d": {} }
+      }
+    }
+  ]
+}

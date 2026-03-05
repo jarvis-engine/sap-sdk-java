@@ -2,6 +2,24 @@ spring:
   application:
     name: sap-sdk-demo
 
+server:
+  port: 8080
+
+sap:
+  base-url: ${SAP_BASE_URL:http://wiremock:8080}
+  env: ${SAP_ENV:test}
+  credentials:
+    auth-type: ${SAP_AUTH_TYPE:BASIC}
+    username: ${SAP_USERNAME:demo-user}
+    password: ${SAP_PASSWORD:demo-pass}
+  features:
+    customer-v2-endpoint-enabled: ${SAP_FEATURE_CUSTOMER_V2:false}
+    sales-order-v3-endpoint-enabled: ${SAP_FEATURE_ORDER_V3:false}
+    sales-order-v4-endpoint-enabled: ${SAP_FEATURE_ORDER_V4:false}
+    sales-order-v5-endpoint-enabled: ${SAP_FEATURE_ORDER_V5:false}
+    product-availability-v2-endpoint-enabled: ${SAP_FEATURE_AVAIL_V2:false}
+    package-configuration-v2-endpoint-enabled: ${SAP_FEATURE_PKG_V2:false}
+
 management:
   endpoints:
     web:

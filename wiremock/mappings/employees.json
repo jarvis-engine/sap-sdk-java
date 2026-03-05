@@ -1,0 +1,44 @@
+{
+  "mappings": [
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/employee/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              {
+                "uuid": "emp-uuid-001",
+                "employeeId": "EMP-001",
+                "firstName": "Max",
+                "lastName": "Müller",
+                "phone": "+49 89 1234567",
+                "changeStateId": "CS-E001",
+                "workEmail": "m.mueller@kurtkoeniggroup.de",
+                "reportingLineUnitId": "RL-SALES-01",
+                "customerInternalId": "1000001",
+                "companyId": "KK-DE"
+              },
+              {
+                "uuid": "emp-uuid-002",
+                "employeeId": "EMP-002",
+                "firstName": "Anna",
+                "lastName": "Schmidt",
+                "phone": "+49 40 7654321",
+                "changeStateId": "CS-E002",
+                "workEmail": "a.schmidt@kurtkoeniggroup.de",
+                "reportingLineUnitId": "RL-RENTAL-01",
+                "customerInternalId": "1000002",
+                "companyId": "KK-DE"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

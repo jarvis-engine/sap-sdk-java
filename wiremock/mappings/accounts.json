@@ -1,0 +1,210 @@
+{
+  "mappings": [
+    {
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/customer/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "results": [
+              {
+                "uuid": "acc-uuid-001",
+                "internalId": "1000001",
+                "changeStateId": "CS-001",
+                "organizationName": "Kurt König GmbH",
+                "taxId": "DE123456789",
+                "classificationCode": "A",
+                "industry": "Construction",
+                "channels": ["Z1", "01"],
+                "addresses": [
+                  {
+                    "uuid": "addr-001",
+                    "street": "Industriestraße 12",
+                    "city": "München",
+                    "postalCode": "80331",
+                    "country": "DE"
+                  }
+                ],
+                "createdAt": "2025-06-15T10:30:00Z",
+                "crefoId": "CREFO-001",
+                "assignedEmployees": [],
+                "lifeCycleStatusCode": "2",
+                "accountType": "2",
+                "businessDocuments": [],
+                "enabledForRent": true,
+                "accountBlockReason": null
+              },
+              {
+                "uuid": "acc-uuid-002",
+                "internalId": "1000002",
+                "changeStateId": "CS-002",
+                "organizationName": "Baumaschinen Weber AG",
+                "taxId": "DE987654321",
+                "classificationCode": "B",
+                "industry": "Equipment Rental",
+                "channels": ["01"],
+                "addresses": [
+                  {
+                    "uuid": "addr-002",
+                    "street": "Hafenweg 5",
+                    "city": "Hamburg",
+                    "postalCode": "20457",
+                    "country": "DE"
+                  }
+                ],
+                "createdAt": "2025-08-20T14:00:00Z",
+                "crefoId": "CREFO-002",
+                "assignedEmployees": [],
+                "lifeCycleStatusCode": "2",
+                "accountType": "2",
+                "businessDocuments": [],
+                "enabledForRent": false,
+                "accountBlockReason": null
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/customer/get-one.*uuid.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "uuid": "acc-uuid-001",
+            "internalId": "1000001",
+            "changeStateId": "CS-001",
+            "organizationName": "Kurt König GmbH",
+            "taxId": "DE123456789",
+            "classificationCode": "A",
+            "industry": "Construction",
+            "channels": ["Z1", "01"],
+            "addresses": [
+              {
+                "uuid": "addr-001",
+                "street": "Industriestraße 12",
+                "city": "München",
+                "postalCode": "80331",
+                "country": "DE"
+              }
+            ],
+            "createdAt": "2025-06-15T10:30:00Z",
+            "crefoId": "CREFO-001",
+            "assignedEmployees": [
+              {
+                "employeeId": "EMP-001",
+                "role": "Sales Representative"
+              }
+            ],
+            "lifeCycleStatusCode": "2",
+            "accountType": "2",
+            "businessDocuments": [],
+            "enabledForRent": true,
+            "accountBlockReason": null
+          }
+        }
+      }
+    },
+    {
+      "priority": 3,
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/customer/get-one.*id.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "uuid": "acc-uuid-001",
+            "internalId": "1000001",
+            "organizationName": "Kurt König GmbH",
+            "taxId": "DE123456789",
+            "lifeCycleStatusCode": "2",
+            "accountType": "2",
+            "enabledForRent": true,
+            "channels": ["Z1", "01"],
+            "addresses": [],
+            "assignedEmployees": [],
+            "businessDocuments": []
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "GET",
+        "urlPattern": "/http/test/v1/customer/duplicate/get.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "duplicateEmail": false,
+            "duplicateTaxId": false,
+            "duplicateCrefoId": false,
+            "duplicateContactPerson": false
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v2/customer/post"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "d": {
+            "uuid": "acc-uuid-new",
+            "internalId": "1000099",
+            "organizationName": "New Customer GmbH",
+            "lifeCycleStatusCode": "2",
+            "accountType": "2",
+            "enabledForRent": false,
+            "channels": [],
+            "addresses": [],
+            "assignedEmployees": [],
+            "businessDocuments": []
+          }
+        }
+      }
+    },
+    {
+      "request": {
+        "method": "DELETE",
+        "urlPattern": "/http/test/v1/customer/address/delete.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "d": {} }
+      }
+    },
+    {
+      "request": {
+        "method": "POST",
+        "urlPattern": "/http/test/v1/customer/address/post.*"
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "d": {} }
+      }
+    }
+  ]
+}
