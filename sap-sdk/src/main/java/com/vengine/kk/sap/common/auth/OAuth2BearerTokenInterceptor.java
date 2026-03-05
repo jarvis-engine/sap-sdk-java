@@ -34,11 +34,21 @@ public class OAuth2BearerTokenInterceptor implements ClientHttpRequestIntercepto
     private long expiresAt;
 
     public OAuth2BearerTokenInterceptor(SapProperties properties) {
-        SapProperties.Credentials credentials = properties.getCredentials();
-        this.tokenUrl = credentials.getOauthTokenUrl();
-        this.clientId = credentials.getOauthClientId();
-        this.clientSecret = credentials.getOauthClientSecret();
-        this.tokenRestTemplate = new RestTemplate();
+        this(properties.getCredentials().getOauthTokenUrl(),
+             properties.getCredentials().getOauthClientId(),
+             properties.getCredentials().getOauthClientSecret(),
+             new RestTemplate());
+    }
+
+    /**
+     * Package-private constructor for testability — allows injecting a mock RestTemplate.
+     */
+    OAuth2BearerTokenInterceptor(String tokenUrl, String clientId, String clientSecret,
+                                  RestTemplate tokenRestTemplate) {
+        this.tokenUrl = tokenUrl;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.tokenRestTemplate = tokenRestTemplate;
     }
 
     @Override

@@ -1,0 +1,16 @@
+sap:
+  base-url: http://localhost:8080
+  env: test
+  encrypt-key: ""
+  origin-project: ""
+  credentials:
+    auth-type: BASIC
+    username: test-user
+    password: test-pass
+  features:
+    customer-v2-endpoint-enabled: false
+    sales-order-v3-endpoint-enabled: false
+    sales-order-v4-endpoint-enabled: false
+    sales-order-v5-endpoint-enabled: false
+    package-configuration-v2-endpoint-enabled: false
+    product-availability-v2-endpoint-enabled: false

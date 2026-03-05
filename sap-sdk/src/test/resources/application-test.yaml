@@ -1,0 +1,8 @@
+sap:
+  env: test
+  encrypt-key: ""
+  origin-project: ""
+  credentials:
+    auth-type: BASIC
+    username: test-user
+    password: test-pass
