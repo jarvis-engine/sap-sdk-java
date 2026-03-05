@@ -37,7 +37,7 @@ class OAuth2BearerTokenInterceptorTest {
     @BeforeEach
     void setUp() {
         interceptor = new OAuth2BearerTokenInterceptor(
-                "https://auth.example.com/token", "client-id", "client-secret", tokenRestTemplate);
+                "https://auth.example.com/token", "client-id", "client-secret", tokenRestTemplate, null);
     }
 
     private void stubTokenResponse(String accessToken, long expiresIn) {
@@ -215,6 +215,20 @@ class OAuth2BearerTokenInterceptorTest {
 
         // Token should have been fetched exactly once due to synchronization
         assertThat(fetchCount.get()).isEqualTo(1);
+    }
+
+    @Test
+    void originProjectHeaderSentWhenConfigured() throws Exception {
+        OAuth2BearerTokenInterceptor interceptorWithOrigin = new OAuth2BearerTokenInterceptor(
+                "https://auth.example.com/token", "client-id", "client-secret", tokenRestTemplate, "ep");
+
+        stubTokenResponse("token-abc", 3600);
+        when(execution.execute(any(), any())).thenReturn(new MockClientHttpResponse(new byte[0], HttpStatus.OK));
+
+        MockClientHttpRequest request = new MockClientHttpRequest();
+        interceptorWithOrigin.intercept(request, new byte[0], execution);
+
+        assertThat(request.getHeaders().getFirst("Origin-Project")).isEqualTo("ep");
     }
 
     private void setExpiresAt(Object target, long value) throws Exception {

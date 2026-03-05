@@ -56,8 +56,9 @@ public class SalesOrderClient extends BaseSapClient {
     }
 
     public SalesOrder update(String id, Map<String, Object> request) {
-        request.put("id", id);
-        return post(createRoute(), request, SalesOrder.class);
+        Map<String, Object> payload = new java.util.HashMap<>(request);
+        payload.put("id", id);
+        return post(createRoute(), payload, SalesOrder.class);
     }
 
     public void cancel(String id) {

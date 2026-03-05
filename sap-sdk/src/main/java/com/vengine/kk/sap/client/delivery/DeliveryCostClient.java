@@ -30,10 +30,11 @@ public class DeliveryCostClient extends BaseSapClient {
      * @param weight         shipment weight
      */
     public List<DeliveryCost> fetch(String fromPostalCode, String toPostalCode, String weight) {
-        String route = DELIVERY_COST_GET
-                + "?fromPostalCode=" + fromPostalCode
-                + "&toPostalCode=" + toPostalCode
-                + "&weight=" + weight;
+        String route = appendQueryParams(DELIVERY_COST_GET, java.util.Map.of(
+                "fromPostalCode", fromPostalCode,
+                "toPostalCode", toPostalCode,
+                "weight", weight
+        ));
         return getList(route, DeliveryCost.class);
     }
 }

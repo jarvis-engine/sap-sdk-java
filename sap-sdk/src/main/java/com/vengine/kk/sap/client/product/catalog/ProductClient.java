@@ -8,6 +8,7 @@ import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * SAP ByDesign client for product catalog operations.
@@ -57,14 +58,14 @@ public class ProductClient extends BaseSapClient {
      * Fetches a paginated list of products.
      */
     public List<Product> fetch(SapQuery query) {
-        return getList(appendQueryParams(PRODUCT_GET, query != null ? query.toParamMap() : java.util.Map.of()), Product.class);
+        return getList(appendQueryParams(PRODUCT_GET, query != null ? query.toParamMap() : Map.of()), Product.class);
     }
 
     /**
      * Fetches a single product by its SAP internal ID.
      */
     public Product fetchOne(String id) {
-        return get(PRODUCT_GET_ONE + "?id=" + id, Product.class);
+        return get(appendQueryParams(PRODUCT_GET_ONE, Map.of("id", id)), Product.class);
     }
 
     /**
@@ -78,7 +79,7 @@ public class ProductClient extends BaseSapClient {
      * Fetches material attributes for a specific product.
      */
     public List<ProductAttribute> fetchAttributes(String productId) {
-        return getList(PRODUCT_ATTRIBUTES + "?productId=" + productId, ProductAttribute.class);
+        return getList(appendQueryParams(PRODUCT_ATTRIBUTES, Map.of("productId", productId)), ProductAttribute.class);
     }
 
     /**
@@ -88,7 +89,7 @@ public class ProductClient extends BaseSapClient {
         String route = sapProperties.getFeatures().isPackageConfigurationV2EndpointEnabled()
                 ? PACKAGE_CONFIG_V2
                 : PACKAGE_CONFIG_V1;
-        return getList(route + "?productId=" + productId, PackageConfiguration.class);
+        return getList(appendQueryParams(route, Map.of("productId", productId)), PackageConfiguration.class);
     }
 
     // -------------------------------------------------------------------------
@@ -106,14 +107,14 @@ public class ProductClient extends BaseSapClient {
      * Fetches prices for a specific product.
      */
     public List<ProductPrice> fetchPrices(String productId) {
-        return getList(PRODUCT_PRICES + "?productId=" + productId, ProductPrice.class);
+        return getList(appendQueryParams(PRODUCT_PRICES, Map.of("productId", productId)), ProductPrice.class);
     }
 
     /**
      * Fetches product prices filtered by a specific price list.
      */
     public List<ProductPrice> fetchPricesByPriceList(String priceListId) {
-        return getList(PRODUCT_PRICES + "?priceListId=" + priceListId, ProductPrice.class);
+        return getList(appendQueryParams(PRODUCT_PRICES, Map.of("priceListId", priceListId)), ProductPrice.class);
     }
 
     // -------------------------------------------------------------------------
@@ -127,7 +128,7 @@ public class ProductClient extends BaseSapClient {
         String route = sapProperties.getFeatures().isProductAvailabilityV2EndpointEnabled()
                 ? PRODUCT_AVAILABILITY_V2
                 : PRODUCT_AVAILABILITY_V1;
-        return get(route + "?productId=" + productId + "&fromDate=" + fromDate + "&toDate=" + toDate,
+        return get(appendQueryParams(route, Map.of("productId", productId, "fromDate", fromDate, "toDate", toDate)),
                 ProductAvailability.class);
     }
 
@@ -135,14 +136,14 @@ public class ProductClient extends BaseSapClient {
      * Fetches stock/ATP check for a product.
      */
     public StockAvailability fetchStock(String productId) {
-        return get(PRODUCT_STOCK_CHECK + "?productId=" + productId, StockAvailability.class);
+        return get(appendQueryParams(PRODUCT_STOCK_CHECK, Map.of("productId", productId)), StockAvailability.class);
     }
 
     /**
      * Fetches detailed product information (shipping group, sortiment, etc.).
      */
     public ProductDetails fetchDetails(String productId) {
-        return get(PRODUCT_DETAILS + "?productId=" + productId, ProductDetails.class);
+        return get(appendQueryParams(PRODUCT_DETAILS, Map.of("productId", productId)), ProductDetails.class);
     }
 
     // -------------------------------------------------------------------------
@@ -157,7 +158,7 @@ public class ProductClient extends BaseSapClient {
      * handles this correctly.
      */
     public ProductAttribute fetchMaterialAttribute(String productId) {
-        return get(MATERIAL_ATTRIBUTE + "?productId=" + productId, ProductAttribute.class);
+        return get(appendQueryParams(MATERIAL_ATTRIBUTE, Map.of("productId", productId)), ProductAttribute.class);
     }
 
 }

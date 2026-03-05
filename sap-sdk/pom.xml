@@ -55,6 +55,12 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
+        <!-- Bean Validation (for @NotBlank/@NotNull on ConfigurationProperties) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <!-- Spring Boot configuration processor (for @ConfigurationProperties metadata) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -13,6 +13,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import org.springframework.lang.Nullable;
+
 import java.io.IOException;
 
 /**
@@ -24,11 +26,13 @@ import java.io.IOException;
 public class OAuth2BearerTokenInterceptor implements ClientHttpRequestInterceptor {
 
     private static final long EXPIRY_BUFFER_MS = 30_000;
+    private static final String HEADER_ORIGIN_PROJECT = "Origin-Project";
 
     private final String tokenUrl;
     private final String clientId;
     private final String clientSecret;
     private final RestTemplate tokenRestTemplate;
+    @Nullable private final String originProject;
 
     private String cachedToken;
     private long expiresAt;
@@ -37,18 +41,20 @@ public class OAuth2BearerTokenInterceptor implements ClientHttpRequestIntercepto
         this(properties.getCredentials().getOauthTokenUrl(),
              properties.getCredentials().getOauthClientId(),
              properties.getCredentials().getOauthClientSecret(),
-             new RestTemplate());
+             new RestTemplate(),
+             properties.getOriginProject());
     }
 
     /**
      * Package-private constructor for testability — allows injecting a mock RestTemplate.
      */
     OAuth2BearerTokenInterceptor(String tokenUrl, String clientId, String clientSecret,
-                                  RestTemplate tokenRestTemplate) {
+                                  RestTemplate tokenRestTemplate, String originProject) {
         this.tokenUrl = tokenUrl;
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.tokenRestTemplate = tokenRestTemplate;
+        this.originProject = originProject;
     }
 
     @Override
@@ -58,6 +64,9 @@ public class OAuth2BearerTokenInterceptor implements ClientHttpRequestIntercepto
             ClientHttpRequestExecution execution) throws IOException {
 
         request.getHeaders().set(HttpHeaders.AUTHORIZATION, "Bearer " + getToken());
+        if (originProject != null && !originProject.isBlank()) {
+            request.getHeaders().set(HEADER_ORIGIN_PROJECT, originProject);
+        }
         return execution.execute(request, body);
     }
 
