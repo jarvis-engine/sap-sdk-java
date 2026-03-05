@@ -10,7 +10,6 @@ import com.vengine.kk.sap.common.model.SapQuery;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -19,21 +18,28 @@ import java.util.Map;
  *
  * <p>Provides all 12 account operations: fetch, create, update, delete address/contact,
  * duplication check, and target-group lookup.
+ *
+ * <p>Route selection respects the {@code sap.features.customerV2EndpointEnabled} flag:
+ * when enabled, fetch/create/update use the V2 endpoints.
  */
 @Service
 public class AccountClient extends BaseSapClient {
 
     // Route paths (without leading slash — buildUrl() adds the prefix)
-    private static final String CUSTOMER_FETCH             = "v1/customer/get";
+    // V1 routes
+    private static final String CUSTOMER_V1_FETCH          = "v1/customer/get";
     private static final String CUSTOMER_FETCH_ONE         = "v1/customer/get-one";
-    private static final String CUSTOMER_CREATE            = "v2/customer/post";
-    private static final String CUSTOMER_UPDATE            = "v2/customer/put";
     private static final String CUSTOMER_CHECK_DUPLICATES  = "v1/customer/duplicate/get";
     private static final String CUSTOMER_TARGET_GROUP      = "v1/customer/target-group/get";
-    private static final String CUSTOMER_DELETE_ADDRESS     = "v1/customer/address/delete";
-    private static final String CUSTOMER_DELETE_CONTACT     = "v1/customer/relationship/delete";
-    private static final String CUSTOMER_CREATE_ADDRESS     = "v1/customer/address/post";
-    private static final String CUSTOMER_CREATE_CONTACT     = "v1/customer/relationship/post";
+    private static final String CUSTOMER_DELETE_ADDRESS    = "v1/customer/address/delete";
+    private static final String CUSTOMER_DELETE_CONTACT    = "v1/customer/relationship/delete";
+    private static final String CUSTOMER_CREATE_ADDRESS    = "v1/customer/address/post";
+    private static final String CUSTOMER_CREATE_CONTACT    = "v1/customer/relationship/post";
+
+    // V2 routes
+    private static final String CUSTOMER_V2_FETCH          = "v2/customer/get";
+    private static final String CUSTOMER_CREATE            = "v2/customer/post";
+    private static final String CUSTOMER_UPDATE            = "v2/customer/put";
 
     public AccountClient(SapAuthenticatedClientFactory factory,
                          SapProperties properties,
@@ -48,9 +54,12 @@ public class AccountClient extends BaseSapClient {
 
     /**
      * Fetches a list of accounts with optional query parameters (limit, lastId, countryCode).
+     * Uses V2 endpoint when {@code sap.features.customerV2EndpointEnabled} is true.
      */
     public List<Account> fetch(SapQuery query) {
-        String route = appendQueryParams(CUSTOMER_FETCH, query.toParamMap());
+        String base = properties.getFeatures().isCustomerV2EndpointEnabled()
+                ? CUSTOMER_V2_FETCH : CUSTOMER_V1_FETCH;
+        String route = appendQueryParams(base, query.toParamMap());
         return getList(route, Account.class);
     }
 
@@ -93,9 +102,12 @@ public class AccountClient extends BaseSapClient {
 
     /**
      * Fetches multiple accounts by a list of internal IDs.
+     * Uses V2 endpoint when {@code sap.features.customerV2EndpointEnabled} is true.
      */
     public List<Account> fetchByIds(List<String> ids) {
-        String route = appendQueryParams(CUSTOMER_FETCH, Map.of("ids", String.join(",", ids)));
+        String base = properties.getFeatures().isCustomerV2EndpointEnabled()
+                ? CUSTOMER_V2_FETCH : CUSTOMER_V1_FETCH;
+        String route = appendQueryParams(base, Map.of("ids", String.join(",", ids)));
         return getList(route, Account.class);
     }
 

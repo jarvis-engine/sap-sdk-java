@@ -1,6 +1,8 @@
 package com.vengine.kk.sap.common.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vengine.kk.sap.common.config.SapProperties;
+import com.vengine.kk.sap.common.error.SapResponseErrorHandler;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
@@ -10,7 +12,8 @@ import java.util.List;
 
 /**
  * Creates a pre-configured {@link RestTemplate} with the appropriate
- * authentication interceptor (BASIC or OAUTH2) and standard timeouts.
+ * authentication interceptor (BASIC or OAUTH2), standard timeouts,
+ * and the SAP-specific {@link SapResponseErrorHandler} for HTTP-level errors.
  */
 @Component
 public class SapAuthenticatedClientFactory {
@@ -19,9 +22,11 @@ public class SapAuthenticatedClientFactory {
     private static final int READ_TIMEOUT_MS    = 30_000;
 
     private final SapProperties properties;
+    private final ObjectMapper objectMapper;
 
-    public SapAuthenticatedClientFactory(SapProperties properties) {
+    public SapAuthenticatedClientFactory(SapProperties properties, ObjectMapper objectMapper) {
         this.properties = properties;
+        this.objectMapper = objectMapper;
     }
 
     public RestTemplate createClient() {
@@ -43,6 +48,7 @@ public class SapAuthenticatedClientFactory {
         }
 
         restTemplate.setInterceptors(List.of(interceptor));
+        restTemplate.setErrorHandler(new SapResponseErrorHandler(objectMapper));
         return restTemplate;
     }
 }
