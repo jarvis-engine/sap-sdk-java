@@ -5,7 +5,6 @@ import com.vengine.kk.sap.common.config.SapProperties;
 import com.vengine.kk.sap.common.error.SapResponseErrorHandler;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.List;
  * authentication interceptor (BASIC or OAUTH2), standard timeouts,
  * and the SAP-specific {@link SapResponseErrorHandler} for HTTP-level errors.
  */
-@Component
 public class SapAuthenticatedClientFactory {
 
     private static final int CONNECT_TIMEOUT_MS = 5_000;

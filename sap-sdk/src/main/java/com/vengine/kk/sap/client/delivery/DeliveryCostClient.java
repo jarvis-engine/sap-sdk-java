@@ -5,7 +5,6 @@ import com.vengine.kk.sap.common.client.BaseSapClient;
 import com.vengine.kk.sap.common.config.SapProperties;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -13,7 +12,6 @@ import java.util.List;
  * SAP ByDesign client for delivery/shipping cost operations.
  */
 @Slf4j
-@Component
 public class DeliveryCostClient extends BaseSapClient {
 
     private static final String DELIVERY_COST_GET = "v1/sales-order/shipping-costs/get";

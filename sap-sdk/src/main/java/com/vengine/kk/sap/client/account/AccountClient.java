@@ -7,7 +7,6 @@ import com.vengine.kk.sap.common.client.BaseSapClient;
 import com.vengine.kk.sap.common.config.SapProperties;
 import com.vengine.kk.sap.common.model.SapQuery;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ import java.util.Map;
  * <p>Route selection respects the {@code sap.features.customerV2EndpointEnabled} flag:
  * when enabled, fetch/create/update use the V2 endpoints.
  */
-@Service
 public class AccountClient extends BaseSapClient {
 
     // Route paths (without leading slash — buildUrl() adds the prefix)

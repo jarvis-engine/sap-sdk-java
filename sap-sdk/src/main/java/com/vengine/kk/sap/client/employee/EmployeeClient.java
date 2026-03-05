@@ -6,7 +6,6 @@ import com.vengine.kk.sap.common.config.SapProperties;
 import com.vengine.kk.sap.common.model.SapQuery;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -14,7 +13,6 @@ import java.util.List;
  * SAP ByDesign client for employee operations.
  */
 @Slf4j
-@Component
 public class EmployeeClient extends BaseSapClient {
 
     private static final String EMPLOYEE_GET = "v1/employee/get";

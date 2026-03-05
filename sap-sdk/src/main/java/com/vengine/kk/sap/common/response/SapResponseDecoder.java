@@ -3,7 +3,6 @@ package com.vengine.kk.sap.common.response;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vengine.kk.sap.common.exception.SapClientException;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
  * sometimes returns a single object instead of an array in {@code results}
  * (the "ArrayConverter::toArrayList()" quirk). This decoder handles both cases.
  */
-@Component
 public class SapResponseDecoder {
 
     private final ObjectMapper objectMapper;

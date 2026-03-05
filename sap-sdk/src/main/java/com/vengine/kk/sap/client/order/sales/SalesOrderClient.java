@@ -7,7 +7,6 @@ import com.vengine.kk.sap.common.model.SapQuery;
 import com.vengine.kk.sap.common.response.SapResponseDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.Map;
  * Feature-flag-aware routing: V3/V4/V5 when enabled, V1/V2 fallback.
  */
 @Slf4j
-@Component
 public class SalesOrderClient extends BaseSapClient {
 
     // V1 routes
